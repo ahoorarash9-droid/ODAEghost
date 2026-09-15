@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>مودهای Java | ModPulse</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(126, 87, 194, 0.18), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(0, 255, 140, 0.10), transparent 35%),
+        #080b10;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 7%;
+      background: rgba(8, 11, 16, 0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      color: #63ff9c;
+      text-decoration: none;
+    }
+
+    nav .links {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      color: #63ff9c;
+    }
+
+    .container {
+      width: min(1100px, 90%);
+      margin: 50px auto;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .title h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .title p {
+      color: #aaa;
+      font-size: 16px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    input,
+    select {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #11161d;
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #63ff9c;
+    }
+
+    .mods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .mod-card {
+      background: rgba(17, 22, 29, 0.9);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: 0.25s;
+    }
+
+    .mod-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99,255,156,0.5);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+    }
+
+    .mod-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #0d1117;
+    }
+
+    .no-image {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(135deg, rgba(99,255,156,0.12), rgba(130,80,255,0.15)),
+        #0d1117;
+      color: #63ff9c;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .mod-content {
+      padding: 18px;
+    }
+
+    .mod-content h2 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .version {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(99,255,156,0.1);
+      color: #63ff9c;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .description {
+      color: #aaa;
+      line-height: 1.8;
+      min-height: 55px;
+      margin-bottom: 15px;
+    }
+
+    .download-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      background: #63ff9c;
+      color: #07100b;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .download-btn:hover {
+      transform: scale(1.02);
+      filter: brightness(1.08);
+    }
+
+    .empty {
+      text-align: center;
+      color: #888;
+      padding: 60px 20px;
+      display: none;
+    }
+
+    .loading {
+      text-align: center;
+      color: #63ff9c;
+      padding: 50px;
+    }
+
+    .error {
+      text-align: center;
+      color: #ff7070;
+      padding: 30px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .title h1 {
+        font-size: 32px;
+      }
+
+      nav {padding: 16px 5%;
+      }
+
+      nav .links {
+        gap: 10px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">ModPulse</a>
+
+    <div class="links">
+      <a href="java.html">Java</a>
+      <a href="bedrock.html">Bedrock</a>
+      <a href="news.html">News</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <div class="title">
+      <h1>🟢 Minecraft Java Mods</h1>
+      <p>مودهای Minecraft Java Edition را پیدا و دانلود کن.</p>
+    </div>
+
+    <div class="filters">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="جستجوی مود..."
+      >
+
+      <select id="versionFilter">
+        <option value="">همه نسخه‌ها</option>
+      </select>
+    </div>
+
+    <div id="loading" class="loading">
+      در حال دریافت مودها...
+    </div>
+
+    <div id="error" class="error">
+      دریافت مودها با خطا مواجه شد.
+    </div>
+
+    <div id="modsGrid" class="mods-grid"></div>
+
+    <div id="empty" class="empty">
+      هنوز مودی اضافه نشده.
+    </div>
+
+  </main>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <script>
+    let allMods = [];
+
+    const modsGrid = document.getElementById("modsGrid");
+    const loading = document.getElementById("loading");
+    const errorBox = document.getElementById("error");
+    const empty = document.getElementById("empty");
+
+    const searchInput = document.getElementById("searchInput");
+    const versionFilter = document.getElementById("versionFilter");
+
+    async function loadJavaMods() {
+
+      loading.style.display = "block";
+      errorBox.style.display = "none";
+      empty.style.display = "none";
+
+      const { data, error } = await supabaseClient
+        .from("java_mods")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      loading.style.display = "none";
+
+      if (error) {
+        console.error(error);
+        errorBox.style.display = "block";
+        return;
+      }
+
+      allMods = data || [];
+
+      createVersionList();
+      renderMods(allMods);
+    }
+
+    function createVersionList() {
+
+      const versions = [
+        ...new Set(
+          allMods
+            .map(mod => mod.minecraft_version)
+            .filter(Boolean)
+        )
+      ];
+
+      versionFilter.innerHTML =
+        '<option value="">همه نسخه‌ها</option>';
+
+      versions.forEach(version => {
+
+        const option = document.createElement("option");
+
+        option.value = version;
+        option.textContent = version;
+
+        versionFilter.appendChild(option);
+      });
+    }
+
+    function renderMods(mods) {
+
+      modsGrid.innerHTML = "";
+
+      if (mods.length === 0) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      mods.forEach(mod => {
+
+        const card = document.createElement("div");
+
+        card.className = "mod-card";
+
+        const imageHTML = mod.image_url
+          ? `<img
+               class="mod-image"
+               src="${escapeHtml(mod.image_url)}"
+               alt="${escapeHtml(mod.name)}"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+             >
+             <div class="no-image" style="display:none;">
+               MOD
+             </div>`
+          : `<div class="no-image">MOD</div>`;
+
+        card.innerHTML = `
+          ${imageHTML}
+
+          <div class="mod-content">
+
+            <h2>${escapeHtml(mod.name)}</h2>
+
+            <span class="version">
+              Minecraft ${escapeHtml(mod.minecraft_version)}
+            </span>
+
+            <p class="description">
+              ${escapeHtml(
+                mod.description || "توضیحی برای این مود ثبت نشده."
+              )}
+            </p>
+
+            <a
+              class="download-btn"
+              href="${escapeHtml(mod.download_url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ⬇ دانلود مود
+            </a>
+
+          </div>
+        `;
+
+        modsGrid.appendChild(card);
+      });
+    }
+
+    function filterMods() {
+
+      const search =
+        searchInput.value.trim().toLowerCase();
+
+      const version =
+        versionFilter.value;
+
+      const filtered = allMods.filter(mod => {
+
+        const matchesSearch =
+          !search ||
+          mod.name.toLowerCase().includes(search) ||
+          (mod.description || "").toLowerCase().includes(search);
+
+        const matchesVersion =
+          !version ||
+          mod.minecraft_version === version;
+
+        return matchesSearch && matchesVersion;
+      });
+
+      renderMods(filtered);
+    }
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    searchInput.addEventListener("input", filterMods);
+    versionFilter.addEventListener("change", filterMods);
+
+    loadJavaMods();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ModPulse | Minecraft Mods & News</title>
+
+    <meta name="description" content="ModPulse - مرجع مودها و اخبار Minecraft برای Java و Bedrock">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(101, 240, 82, 0.10), transparent 30%),
+                radial-gradient(circle at 85% 15%, rgba(130, 70, 255, 0.13), transparent 30%),
+                #080b0f;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: 100%;
+            padding: 20px 6%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(8, 11, 15, 0.82);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(101, 240, 82, 0.10);
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: white;
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #65f052;
+            text-shadow: 0 0 15px rgba(101, 240, 82, 0.5);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav a {
+            color: #b9c0c8;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #65f052;
+            background: rgba(101, 240, 82, 0.08);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: calc(100vh - 85px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            padding: 70px 20px 100px;
+
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            background: rgba(101, 240, 82, 0.08);
+            filter: blur(100px);
+            border-radius: 50%;
+
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 9px 16px;
+            margin-bottom: 25px;
+
+            border: 1px solid rgba(101, 240, 82, 0.25);
+            border-radius: 999px;
+
+            background: rgba(101, 240, 82, 0.06);
+
+            color: #65f052;
+            font-size: 13px;
+        }
+
+        .hero h1 {
+            font-size: clamp(52px, 10vw, 100px);
+            line-height: 1;
+
+            font-weight: 950;
+            letter-spacing: -4px;
+
+            margin-bottom: 25px;
+
+            color: #ffffff;
+            text-shadow:
+                0 0 25px rgba(101, 240, 82, 0.10);
+        }
+
+        .hero h1 span {
+            color: #65f052;
+
+            text-shadow:
+                0 0 15px rgba(101, 240, 82, 0.55),
+                0 0 40px rgba(101, 240, 82, 0.20);
+        }
+
+        .hero h2 {
+            font-size: clamp(20px, 4vw, 32px);
+            color: #dce1e6;
+            margin-bottom: 18px;}
+
+        .hero p {
+            max-width: 680px;
+            margin: 0 auto 38px;
+
+            color: #8e98a4;
+            font-size: 16px;
+            line-height: 2;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            min-width: 155px;
+
+            padding: 14px 22px;
+
+            border-radius: 12px;
+            border: 1px solid transparent;
+
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+
+            transition:
+                transform 0.25s,
+                box-shadow 0.25s,
+                background 0.25s;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+        }
+
+        .btn-primary {
+            color: #061006;
+            background: #65f052;
+
+            box-shadow:
+                0 0 25px rgba(101, 240, 82, 0.20);
+        }
+
+        .btn-primary:hover {
+            box-shadow:
+                0 0 35px rgba(101, 240, 82, 0.35);
+        }
+
+        .btn-secondary {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.10);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(101, 240, 82, 0.30);
+        }
+
+        .btn-purple {
+            color: #ffffff;
+            background: rgba(130, 70, 255, 0.10);
+            border-color: rgba(130, 70, 255, 0.30);
+        }
+
+        .btn-purple:hover {
+            background: rgba(130, 70, 255, 0.18);
+            box-shadow:
+                0 0 30px rgba(130, 70, 255, 0.15);
+        }
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+            max-width: 1150px;
+            margin: 0 auto;
+
+            padding: 40px 20px 100px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature {
+            padding: 28px 24px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.045),
+                    rgba(255, 255, 255, 0.015)
+                );
+
+            border: 1px solid rgba(255, 255, 255, 0.07);
+
+            transition: 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-6px);
+
+            border-color: rgba(101, 240, 82, 0.22);
+
+            box-shadow:
+                0 15px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            margin-bottom: 18px;
+
+            font-size: 23px;
+
+            background: rgba(101, 240, 82, 0.08);
+            border: 1px solid rgba(101, 240, 82, 0.12);
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature p {
+            color: #87919c;
+            line-height: 1.9;
+            font-size: 13px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+            padding: 30px 20px;
+
+            text-align: center;
+
+            color: #69737e;
+            font-size: 13px;
+        }
+
+        footer strong {
+            color: #65f052;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            header {
+                padding: 15px 18px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav {
+                width: 100%;justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 80px 18px 60px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                padding-bottom: 70px;
+            }
+        }
+
+        @media (max-width: 420px) {
+
+            .hero h1 {
+                font-size: 50px;
+            }
+
+            .hero h2 {
+                font-size: 19px;
+            }
+
+            .badge {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header>
+        <div class="navbar">
+
+            <a href="index.html" class="logo">
+                Mod<span>Pulse</span>
+            </a>
+
+            <nav>
+                <a href="index.html" class="active">خانه</a>
+                <a href="java.html">Java Mods</a>
+                <a href="bedrock.html">Bedrock Mods</a>
+                <a href="news.html">اخبار</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="badge">
+                    ⚡ Minecraft Mods & News
+                </div>
+
+                <h1>
+                    Mod<span>Pulse</span>
+                </h1>
+
+                <h2>
+                    دنیای مودها و اخبار Minecraft
+                </h2>
+
+                <p>
+                    به ModPulse خوش اومدی؛
+                    جایی برای پیدا کردن مودهای Minecraft Java و Bedrock
+                    و دنبال کردن جدیدترین اخبار دنیای Minecraft.
+                </p>
+
+                <div class="buttons">
+
+                    <a href="java.html" class="btn btn-primary">
+                        🟢 Java Mods
+                    </a>
+
+                    <a href="bedrock.html" class="btn btn-secondary">
+                        🟦 Bedrock Mods
+                    </a>
+
+                    <a href="news.html" class="btn btn-purple">
+                        📰 اخبار Minecraft
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FEATURES
+        ========================== -->
+
+        <section class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🧩
+                </div>
+
+                <h3>
+                    Java Mods
+                </h3>
+
+                <p>
+                    مودهای Minecraft Java در یک بخش جداگانه،
+                    مرتب و قابل جستجو بر اساس نسخه.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📱
+                </div>
+
+                <h3>
+                    Bedrock Mods
+                </h3>
+
+                <p>
+                    بخش اختصاصی برای مودها و Add-on های
+                    Minecraft Bedrock.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    Minecraft News
+                </h3>
+
+                <p>
+                    اخبار، آپدیت‌ها و اتفاقات مهم دنیای
+                    Minecraft در یک صفحه اختصاصی.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        © 2026
+        <strong>ModPulse</strong>
+        — Minecraft Mods & News
+
+    </footer>
+
+
+</body>
+</html>

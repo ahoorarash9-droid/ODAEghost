@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ModPulse | Admin Panel</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(125, 60, 255, .18), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(0, 255, 170, .12), transparent 35%),
+        #07090f;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 9, 15, .78);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #00ffb3, #9d5cff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 10px;
+      color: #bbb;
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255,255,255,.07);
+    }
+
+    main {
+      padding: 45px 0 80px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 55px);
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #00ffb3, #9d5cff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: #999;
+      line-height: 1.8;
+    }
+
+    .panel {
+      background: rgba(17, 20, 30, .72);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(0,0,0,.28);
+      color: #fff;
+      padding: 13px 14px;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #00ffb3;
+      box-shadow: 0 0 0 3px rgba(0,255,179,.08);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    select option {
+      background: #11141e;
+      color: white;
+    }
+
+    .file-box {
+      border: 1px dashed rgba(0,255,179,.35);
+      border-radius: 15px;
+      padding: 17px;
+      background: rgba(0,255,179,.035);
+    }
+
+    .file-box input {
+      padding: 10px;
+      background: rgba(0,0,0,.2);
+    }
+
+    .file-help {
+      margin-top: 8px;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .selected-file {
+      margin-top: 10px;
+      color: #00ffb3;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .progress {
+      margin-top: 12px;
+      height: 7px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00ffb3, #9d5cff);
+      transition: width .2s;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 12px 18px;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: bold;
+      transition: .2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary {
+      background: linear-gradient(90deg, #00c98b, #00a878);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,.09);
+    }
+
+    .danger {
+      background: #b92d45;
+    }
+
+    .edit {
+      background: #6545c5;
+    }
+
+    .logout {
+      background: #9c2940;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      color: #aaa;
+      display: none;
+      line-height: 1.7;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      color: #00ffb3;
+      border: 1px solid rgba(0,255,179,.18);
+    }
+
+    .status.error {
+      color: #ff7085;
+      border: 1px solid rgba(255,80,110,.18);
+    }
+
+    .login-box {
+      max-width: 450px;
+      margin: 60px auto;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      background: rgba(0,0,0,.2);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 15px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .item-info {
+      min-width: 0;
+    }
+
+    .item-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 7px;
+      word-break: break-word;
+    }
+
+    .item-meta {
+      color: #888;
+      font-size: 12px;
+    }
+
+    .item-description {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .item-buttons {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .item-buttons button {
+      padding: 9px 12px;
+      font-size: 12px;
+    }
+
+    .empty {
+      color: #777;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(0,255,179,.08);
+      color: #00ffb3;
+    }
+
+    @media (max-width: 700px) {
+      .nav-inner {
+        padding: 12px 0;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .item-buttons {
+        width: 100%;
+      }
+
+      .item-buttons button {
+        flex: 1;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">ModPulse</div>
+
+    <div class="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="java.html">Java Mods</a>
+      <a href="bedrock.html">Bedrock</a>
+      <a href="news.html">News</a>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>Admin Panel</h1>
+    <p>مدیریت مودها، Add-on ها و اخبار ModPulse</p>
+  </section>
+
+
+  <!-- LOGIN -->
+
+  <section id="loginSection" class="panel login-box">
+
+    <h2>🔐 ورود ادمین</h2>
+
+    <div>
+      <label>ایمیل</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="ایمیل ادمین"
+        value="ahorarsh3@gamil.com"
+      >
+    </div>
+
+    <br>
+
+    <div>
+      <label>رمز عبور</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="رمز عبور"
+      >
+    </div>
+
+    <div class="buttons">
+      <button class="primary" id="loginBtn">ورود
+      </button>
+    </div>
+
+    <div id="loginStatus" class="status"></div>
+
+  </section>
+
+
+  <!-- ADMIN CONTENT -->
+
+  <section id="adminSection" class="hidden">
+
+    <div class="panel">
+
+      <div class="section-title">
+        <h2>⚡ پنل مدیریت</h2>
+        <button class="logout" id="logoutBtn">
+          خروج
+        </button>
+      </div>
+
+      <div id="adminStatus" class="status"></div>
+
+    </div>
+
+
+    <!-- JAVA -->
+
+    <section class="panel">
+
+      <div class="section-title">
+        <h2>🟢 Java Mods</h2>
+        <span class="badge">JAVA</span>
+      </div>
+
+      <form id="javaForm">
+
+        <input type="hidden" id="javaId">
+
+        <div class="form-grid">
+
+          <div>
+            <label>نام مود</label>
+            <input id="javaName" required placeholder="مثلاً Sodium">
+          </div>
+
+          <div>
+            <label>نسخه Minecraft</label>
+            <input id="javaVersion" required placeholder="مثلاً 1.21.1">
+          </div>
+
+          <div class="full">
+
+            <label>فایل مود</label>
+
+            <div class="file-box">
+
+              <input
+                type="file"
+                id="javaFile"
+                accept=".jar"
+              >
+
+              <div class="file-help">
+                فایل مود Java را انتخاب کن.
+                فقط فایل‌های <b>.jar</b>
+              </div>
+
+              <div id="javaSelectedFile" class="selected-file"></div>
+
+              <div id="javaProgress" class="progress">
+                <div id="javaProgressBar" class="progress-bar"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="full">
+            <label>لینک دانلود</label>
+            <input
+              id="javaDownload"
+              required
+              placeholder="بعد از آپلود خودکار ساخته می‌شود"
+            >
+          </div>
+
+          <div class="full">
+            <label>توضیحات</label>
+            <textarea
+              id="javaDescription"
+              placeholder="توضیحات مود..."
+            ></textarea>
+          </div>
+
+          <div class="full">
+            <label>لینک تصویر (اختیاری)</label>
+            <input
+              id="javaImage"
+              placeholder="https://..."
+            >
+          </div>
+
+        </div>
+
+        <div class="buttons">
+
+          <button type="submit" class="primary">
+            💾 ذخیره مود
+          </button>
+
+          <button
+            type="button"
+            class="secondary hidden"
+            id="javaCancel"
+          >
+            لغو ویرایش
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- JAVA LIST -->
+
+    <section class="panel">
+
+      <div class="section-title">
+        <h2>📦 مودهای Java</h2>
+      </div>
+
+      <div id="javaList" class="list"></div>
+
+    </section>
+
+
+    <!-- BEDROCK -->
+
+    <section class="panel">
+
+      <div class="section-title">
+        <h2>🔵 Bedrock Add-ons</h2>
+        <span class="badge">BEDROCK</span>
+      </div>
+
+      <form id="bedrockForm">
+
+        <input type="hidden" id="bedrockId">
+
+        <div class="form-grid">
+
+          <div>
+            <label>نام Add-on</label>
+            <input
+              id="bedrockName"
+              required
+              placeholder="مثلاً Mega TNT +3v"
+            >
+          </div>
+
+          <div>
+            <label>نسخه Minecraft</label>
+            <input
+              id="bedrockVersion"
+              required
+              placeholder="مثلاً 1.21"
+            >
+          </div>
+
+          <div class="full">
+
+            <label>فایل Add-on</label>
+
+            <div class="file-box">
+
+              <input
+                type="file"
+                id="bedrockFile"
+                accept=".mcaddon,.mcpack,.zip"
+              >
+
+              <div class="file-help">
+                فایل Bedrock را انتخاب کن.
+                فرمت‌های پیشنهادی:
+                <b>.mcaddon</b>،
+                <b>.mcpack</b>،
+                <b>.zip</b>
+              </div>
+
+              <div id="bedrockSelectedFile" class="selected-file"></div>
+
+              <div id="bedrockProgress" class="progress">
+                <div id="bedrockProgressBar" class="progress-bar"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="full">
+            <label>لینک دانلود</label>
+            <input
+              id="bedrockDownload"
+              required
+              placeholder="بعد از آپلود خودکار ساخته می‌شود"
+            >
+          </div>
+
+          <div class="full">
+            <label>توضیحات</label>
+            <textarea
+              id="bedrockDescription"
+              placeholder="توضیحات Add-on..."
+            ></textarea>
+          </div>
+
+          <div class="full">
+            <label>لینک تصویر (اختیاری)</label>
+            <input
+              id="bedrockImage"
+              placeholder="https://..."
+            >
+          </div>
+
+        </div>
+
+        <div class="buttons">
+
+          <button type="submit" class="primary">
+            💾 ذخیره Add-on
+          </button>
+
+          <button
+            type="button"
+            class="secondary hidden"
+            id="bedrockCancel"
+          >
+            لغو ویرایش
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- BEDROCK LIST -->
+
+    <section class="panel">
+
+      <div class="section-title">
+        <h2>📦 Add-on های Bedrock</h2>
+      </div>
+
+      <div id="bedrockList" class="list"></div>
+
+    </section>
+
+
+    <!-- NEWS -->
+
+    <section class="panel">
+
+      <div class="section-title">
+        <h2>📰 News</h2>
+        <span class="badge">NEWS</span>
+      </div>
+
+      <form id="newsForm">
+
+        <input type="hidden" id="newsId">
+
+        <div class="form-grid">
+
+          <div class="full">
+            <label>عنوان خبر</label>
+            <input
+              id="newsTitle"
+              required
+              placeholder="عنوان خبر..."
+            >
+          </div>
+
+          <div class="full">
+            <label>متن خبر</label>
+            <textarea
+              id="newsContent"
+              required
+              placeholder="متن خبر..."
+            ></textarea>
+          </div>
+
+          <div class="full">
+            <label>لینک تصویر (اختیاری)</label>
+            <input
+              id="newsImage"
+              placeholder="https://..."
+            >
+          </div>
+
+        </div>
+
+        <div class="buttons">
+
+          <button type="submit" class="primary">
+            📰 ذخیره خبر
+          </button>
+
+          <button
+            type="button"
+            class="secondary hidden"
+            id="newsCancel"
+          >
+            لغو ویرایش
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- NEWS LIST -->
+
+    <section class="panel">
+
+      <div class="section-title">
+        <h2>📚 اخبار</h2>
+      </div>
+
+      <div id="newsList" class="list"></div>
+
+    </section>
+
+  </section>
+
+</main>
+
+
+<script>
+
+  const ADMIN_UID =
+    "347c8443-089c-4f35-b8c5-7a10f9bafe3a";
+
+  let currentSession = null;
+
+
+  /* =========================
+     ELEMENTS
+  ========================= */
+
+  const loginSection =
+    document.getElementById("loginSection");
+
+  const adminSection =
+    document.getElementById("adminSection");
+
+  const loginStatus =
+    document.getElementById("loginStatus");
+
+  const adminStatus =
+    document.getElementById("adminStatus");
+
+
+  /* =========================
+     STATUS
+  ========================= */
+
+  function showStatus(element, message, type = "") {
+
+    element.textContent = message;
+
+    element.className = "status show";
+
+    if (type) {
+      element.classList.add(type);
+    }
+  }
+
+
+  function clearStatus(element) {
+
+    element.textContent = "";
+
+    element.className = "status";
+
+  }
+
+
+  /* =========================
+     LOGIN
+  ========================= */
+
+  document
+    .getElementById("loginBtn")
+    .addEventListener("click", async () => {
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      if (!email || !password) {
+
+        showStatus(
+          loginStatus,
+          "ایمیل و رمز عبور را وارد کن.","error"
+        );
+
+        return;
+      }
+
+      showStatus(
+        loginStatus,
+        "در حال ورود..."
+      );
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+      if (error) {
+
+        showStatus(
+          loginStatus,
+          "ورود ناموفق بود: " + error.message,
+          "error"
+        );
+
+        return;
+      }
+
+      if (!data.user || data.user.id !== ADMIN_UID) {
+
+        await supabaseClient.auth.signOut();
+
+        showStatus(
+          loginStatus,
+          "این حساب اجازه ورود به پنل ادمین را ندارد.",
+          "error"
+        );
+
+        return;
+      }
+
+      currentSession = data.session;
+
+      showAdmin();
+
+    });
+
+
+  /* =========================
+     SHOW ADMIN
+  ========================= */
+
+  function showAdmin() {
+
+    loginSection.classList.add("hidden");
+
+    adminSection.classList.remove("hidden");
+
+    clearStatus(loginStatus);
+
+    loadAll();
+
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  document
+    .getElementById("logoutBtn")
+    .addEventListener("click", async () => {
+
+      await supabaseClient.auth.signOut();
+
+      currentSession = null;
+
+      adminSection.classList.add("hidden");
+
+      loginSection.classList.remove("hidden");
+
+      document.getElementById("password").value = "";
+
+    });
+
+
+  /* =========================
+     CHECK SESSION
+  ========================= */
+
+  async function checkSession() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session || !session.user) {
+      return;
+    }
+
+    if (session.user.id !== ADMIN_UID) {
+
+      await supabaseClient.auth.signOut();
+
+      return;
+    }
+
+    currentSession = session;
+
+    showAdmin();
+
+  }
+
+
+  /* =========================
+     FILE UPLOAD
+  ========================= */
+
+  async function uploadFile(file, type, progressElement, progressBar) {
+
+    if (!file) {
+      return null;
+    }
+
+    const extension =
+      file.name.includes(".")
+        ? file.name.split(".").pop().toLowerCase()
+        : "";
+
+    const allowedJava = ["jar"];
+
+    const allowedBedrock = [
+      "mcaddon",
+      "mcpack",
+      "zip"
+    ];
+
+    if (type === "java" &&
+        !allowedJava.includes(extension)) {
+
+      throw new Error(
+        "برای Java فقط فایل .jar انتخاب کن."
+      );
+    }
+
+    if (type === "bedrock" &&
+        !allowedBedrock.includes(extension)) {
+
+      throw new Error(
+        "فرمت فایل Bedrock معتبر نیست."
+      );
+    }
+
+    const safeName =
+      file.name
+        .replace(/[^\w.\-() ]/g, "_")
+        .replace(/\s+/g, "_");
+
+    const uniqueName =
+      Date.now() +
+      "_" +
+      Math.random().toString(36).substring(2, 9) +
+      "_" +
+      safeName;
+
+    const path =
+      type +
+      "/" +
+      uniqueName;
+
+
+    progressElement.style.display = "block";
+
+    progressBar.style.width = "20%";
+
+
+    const { error } =
+      await supabaseClient
+        .storage
+        .from("mods")
+        .upload(path, file, {
+          cacheControl: "3600",
+          upsert: false
+        });
+
+
+    if (error) {
+
+      progressElement.style.display = "none";
+
+      throw error;
+
+    }
+
+
+    progressBar.style.width = "100%";
+
+
+    const {
+      data
+    } = supabaseClient
+      .storage
+      .from("mods")
+      .getPublicUrl(path);
+
+
+    setTimeout(() => {
+
+      progressElement.style.display = "none";
+      progressBar.style.width = "0%";
+
+    }, 700);
+
+
+    return data.publicUrl;
+
+  }
+
+
+  /* =========================
+     JAVA FILE SELECT
+  ========================= */
+
+  document
+    .getElementById("javaFile")
+    .addEventListener("change", (event) => {
+
+      const file = event.target.files[0];
+
+      document.getElementById("javaSelectedFile")
+        .textContent =
+          file
+            ? "📁 " + file.name
+            : "";
+
+    });
+
+
+  /* =========================
+     BEDROCK FILE SELECT
+  ========================= */
+
+  document
+    .getElementById("bedrockFile")
+    .addEventListener("change", (event) => {
+
+      constfile = event.target.files[0];
+
+      document.getElementById("bedrockSelectedFile")
+        .textContent =
+          file
+            ? "📁 " + file.name
+            : "";
+
+    });
+
+
+  /* =========================
+     JAVA ADD / EDIT
+  ========================= */
+
+  document
+    .getElementById("javaForm")
+    .addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      try {
+
+        showStatus(
+          adminStatus,
+          "در حال ذخیره مود Java..."
+        );
+
+
+        const id =
+          document.getElementById("javaId").value;
+
+        const name =
+          document.getElementById("javaName").value.trim();
+
+        const minecraft_version =
+          document
+            .getElementById("javaVersion")
+            .value.trim();
+
+        let download_url =
+          document
+            .getElementById("javaDownload")
+            .value.trim();
+
+        const description =
+          document
+            .getElementById("javaDescription")
+            .value.trim();
+
+        const image_url =
+          document
+            .getElementById("javaImage")
+            .value.trim();
+
+
+        const file =
+          document.getElementById("javaFile")
+            .files[0];
+
+
+        if (file) {
+
+          download_url =
+            await uploadFile(
+              file,
+              "java",
+              document.getElementById("javaProgress"),
+              document.getElementById("javaProgressBar")
+            );
+
+        }
+
+
+        if (!download_url) {
+
+          throw new Error(
+            "لینک دانلود یا فایل مود را وارد کن."
+          );
+
+        }
+
+
+        const payload = {
+          name,
+          minecraft_version,
+          download_url,
+          description,
+          image_url
+        };
+
+
+        let result;
+
+
+        if (id) {
+
+          result =
+            await supabaseClient
+              .from("java_mods")
+              .update(payload)
+              .eq("id", id);
+
+        } else {
+
+          result =
+            await supabaseClient
+              .from("java_mods")
+              .insert(payload);
+
+        }
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        showStatus(
+          adminStatus,
+          id
+            ? "مود Java با موفقیت ویرایش شد ✅"
+            : "مود Java با موفقیت اضافه شد ✅",
+          "success"
+        );
+
+
+        resetJavaForm();
+
+        loadJava();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+          adminStatus,
+          "خطا: " + error.message,
+          "error"
+        );
+
+      }
+
+    });
+
+
+  /* =========================
+     BEDROCK ADD / EDIT
+  ========================= */
+
+  document
+    .getElementById("bedrockForm")
+    .addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      try {
+
+        showStatus(
+          adminStatus,
+          "در حال ذخیره Bedrock Add-on..."
+        );
+
+
+        const id =
+          document
+            .getElementById("bedrockId")
+            .value;
+
+        const name =
+          document
+            .getElementById("bedrockName")
+            .value.trim();
+
+        const minecraft_version =
+          document
+            .getElementById("bedrockVersion")
+            .value.trim();
+
+        let download_url =
+          document
+            .getElementById("bedrockDownload")
+            .value.trim();
+
+        const description =
+          document
+            .getElementById("bedrockDescription")
+            .value.trim();
+
+        const image_url =
+          document
+            .getElementById("bedrockImage")
+            .value.trim();
+
+
+        const file =
+          document
+            .getElementById("bedrockFile")
+            .files[0];
+
+
+        if (file) {
+
+          download_url =
+            await uploadFile(
+              file,
+              "bedrock",
+              document.getElementById("bedrockProgress"),
+              document.getElementById("bedrockProgressBar")
+            );
+
+        }
+
+
+        if (!download_url) {
+
+          throw new Error(
+            "لینک دانلود یا فایل Add-on را وارد کن."
+          );
+
+        }
+
+
+        const payload = {
+          name,
+          minecraft_version,
+          download_url,
+          description,
+          image_url
+        };
+
+
+        let result;
+
+
+        if (id) {
+
+          result =
+            await supabaseClient
+              .from("bedrock_mods")
+              .update(payload)
+              .eq("id", id);
+
+        } else {
+
+          result =
+            await supabaseClient
+              .from("bedrock_mods")
+              .insert(payload);
+
+        }
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        showStatus(
+          adminStatus,
+          id
+            ? "Bedrock Add-on با موفقیت ویرایش شد ✅"
+            : "Bedrock Add-on با موفقیت اضافه شد ✅",
+          "success"
+        );
+
+
+        resetBedrockForm();
+
+        loadBedrock();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+          adminStatus,
+          "خطا: " + error.message,
+          "error"
+        );
+
+      }
+
+    });
+
+
+  /* =========================
+     NEWS ADD / EDIT
+  ========================= */
+
+  document
+    .getElementById("newsForm")
+    .addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      try {
+
+        showStatus(
+          adminStatus,
+          "در حال ذخیره خبر..."
+        );
+
+
+        const id =
+          document
+            .getElementById("newsId")
+            .value;
+
+        const title =
+          document
+            .getElementById("newsTitle")
+            .value.trim();
+
+        const content =
+          document
+            .getElementById("newsContent")
+            .value.trim();
+
+        const image_url =
+          document
+            .getElementById("newsImage")
+            .value.trim();
+
+
+        const payload = {
+          title,
+          content,
+          image_url
+        };
+
+
+        let result;
+
+
+        if (id) {
+
+          result =
+            await supabaseClient
+              .from("news")
+              .update(payload)
+              .eq("id", id);
+
+        } else {
+
+          result =
+            await supabaseClient
+              .from("news")
+              .insert(payload);
+
+        }
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        showStatus(
+          adminStatus,
+          id
+            ? "خبر با موفقیت ویرایش شد ✅"
+            : "خبر با موفقیت اضافه شد ✅",
+          "success"
+        );
+
+
+        resetNewsForm();
+
+        loadNews();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+          adminStatus,
+          "خطا: " + error.message,
+          "error"
+        );
+
+      }
+
+    });
+
+
+  /* =========================
+     LOAD JAVA
+  ========================= */
+
+  async function loadJava() {
+
+    const list =
+      document.getElementById("javaList");
+
+    list.innerHTML =
+      '<div class="empty">در حال بارگذاری...</div>';
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("java_mods")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+    if (error) {
+
+      list.innerHTML =
+        '<div class="empty">خطا در بارگذاری مودها</div>';
+
+      console.error(error);
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty">هنوز مود Java اضافه نشده.</div>';
+
+      return;
+
+    }
+
+
+    list.innerHTML = data.map(mod => `
+
+      <div class="item">
+
+        <div class="item-info">
+
+          <div class="item-title">
+            ${escapeHtml(mod.name)}
+          </div>
+
+          <div class="item-meta">
+            Minecraft ${escapeHtml(mod.minecraft_version)}
+          </div>
+
+          ${
+            mod.description
+              ? `
+                <div class="item-description">
+                  ${escapeHtml(mod.description)}
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+        <div class="item-buttons">
+
+          <button
+            class="edit"
+            onclick="editJava(${mod.id})"
+          >
+            ویرایش
+          </button><button
+            class="danger"
+            onclick="deleteJava(${mod.id})"
+          >
+            حذف
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     LOAD BEDROCK
+  ========================= */
+
+  async function loadBedrock() {
+
+    const list =
+      document.getElementById("bedrockList");
+
+    list.innerHTML =
+      '<div class="empty">در حال بارگذاری...</div>';
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("bedrock_mods")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+    if (error) {
+
+      list.innerHTML =
+        '<div class="empty">خطا در بارگذاری Add-on ها</div>';
+
+      console.error(error);
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty">هنوز Add-on اضافه نشده.</div>';
+
+      return;
+
+    }
+
+
+    list.innerHTML = data.map(mod => `
+
+      <div class="item">
+
+        <div class="item-info">
+
+          <div class="item-title">
+            ${escapeHtml(mod.name)}
+          </div>
+
+          <div class="item-meta">
+            Minecraft ${escapeHtml(mod.minecraft_version)}
+          </div>
+
+          ${
+            mod.description
+              ? `
+                <div class="item-description">
+                  ${escapeHtml(mod.description)}
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+        <div class="item-buttons">
+
+          <button
+            class="edit"
+            onclick="editBedrock(${mod.id})"
+          >
+            ویرایش
+          </button>
+
+          <button
+            class="danger"
+            onclick="deleteBedrock(${mod.id})"
+          >
+            حذف
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     LOAD NEWS
+  ========================= */
+
+  async function loadNews() {
+
+    const list =
+      document.getElementById("newsList");
+
+    list.innerHTML =
+      '<div class="empty">در حال بارگذاری...</div>';
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("news")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+    if (error) {
+
+      list.innerHTML =
+        '<div class="empty">خطا در بارگذاری اخبار</div>';
+
+      console.error(error);
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty">هنوز خبری اضافه نشده.</div>';
+
+      return;
+
+    }
+
+
+    list.innerHTML = data.map(item => `
+
+      <div class="item">
+
+        <div class="item-info">
+
+          <div class="item-title">
+            ${escapeHtml(item.title)}
+          </div>
+
+          <div class="item-description">
+            ${escapeHtml(item.content)}
+          </div>
+
+        </div>
+
+        <div class="item-buttons">
+
+          <button
+            class="edit"
+            onclick="editNews(${item.id})"
+          >
+            ویرایش
+          </button>
+
+          <button
+            class="danger"
+            onclick="deleteNews(${item.id})"
+          >
+            حذف
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     EDIT JAVA
+  ========================= */
+
+  async function editJava(id) {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("java_mods")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+
+    if (error) {
+
+      showStatus(
+        adminStatus,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    document.getElementById("javaId").value = data.id;
+    document.getElementById("javaName").value = data.name;
+    document.getElementById("javaVersion").value = data.minecraft_version;
+    document.getElementById("javaDownload").value = data.download_url || "";
+    document.getElementById("javaDescription").value = data.description || "";
+    document.getElementById("javaImage").value = data.image_url || "";
+
+
+    document
+      .getElementById("javaCancel")
+      .classList.remove("hidden");
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* =========================
+     EDIT BEDROCK
+  ========================= */
+
+  async function editBedrock(id) {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("bedrock_mods")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+
+    if (error) {
+
+      showStatus(
+        adminStatus,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    document.getElementById("bedrockId").value = data.id;
+    document.getElementById("bedrockName").value = data.name;
+    document.getElementById("bedrockVersion").value = data.minecraft_version;
+    document.getElementById("bedrockDownload").value = data.download_url || "";
+    document.getElementById("bedrockDescription").value = data.description || "";
+    document.getElementById("bedrockImage").value = data.image_url || "";
+
+
+    document
+      .getElementById("bedrockCancel")
+      .classList.remove("hidden");
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* =========================
+     EDIT NEWS
+  ========================= */
+
+  async function editNews(id) {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("news")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+
+    if (error) {
+
+      showStatus(
+        adminStatus,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    document.getElementById("newsId").value = data.id;
+    document.getElementById("newsTitle").value = data.title;
+    document.getElementById("newsContent").value = data.content;
+    document.getElementById("newsImage").value = data.image_url || "";
+
+
+    document
+      .getElementById("newsCancel")
+      .classList.remove("hidden");
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* =========================
+     DELETE JAVA
+  ========================= */
+
+  async function deleteJava(id) {
+
+    if (!confirm("این مود حذف شود؟")) {
+      return;
+    }
+
+
+    const {
+      error
+    } = await supabaseClient
+      .from("java_mods")
+      .delete()
+      .eq("id", id);
+
+
+    if (error) {
+
+      showStatus(
+        adminStatus,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      adminStatus,
+      "مود Java حذف شد ✅",
+      "success"
+    );
+
+
+    loadJava();
+
+  }
+
+
+  /* =========================
+     DELETE BEDROCK
+  ========================= */
+
+  async function deleteBedrock(id) {
+
+    if (!confirm("این Add-on حذف شود؟")) {
+      return;
+    }
+
+
+    const {
+      error
+    } = await supabaseClient
+      .from("bedrock_mods")
+      .delete()
+      .eq("id", id);
+
+
+    if (error) {
+
+      showStatus(
+        adminStatus,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      adminStatus,
+      "Bedrock Add-on حذف شد ✅",
+      "success"
+    );
+
+
+    loadBedrock();
+
+  }
+
+
+  /* =========================
+     DELETE NEWS
+  ========================= */
+
+  async function deleteNews(id) {
+
+    if (!confirm("این خبر حذف شود؟")) {
+      return;
+    }
+
+
+    const {
+      error
+    } = await supabaseClient
+      .from("news")
+      .delete()
+      .eq("id", id);
+
+
+    if (error) {
+
+      showStatus(
+        adminStatus,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showStatus(
+      adminStatus,
+      "خبر حذف شد ✅",
+      "success"
+    );
+
+
+    loadNews();
+
+  }
+
+
+  /* =========================
+     RESET FORMS
+  ========================= */
+
+  function resetJavaForm() {
+
+    document.getElementById("javaForm").reset();
+
+    document.getElementById("javaId").value = "";
+
+    document.getElementById("javaSelectedFile")
+      .textContent = "";
+
+    document.getElementById("javaCancel")
+      .classList.add("hidden");
+
+  }
+
+
+  function resetBedrockForm() {
+
+    document.getElementById("bedrockForm").reset();
+
+    document.getElementById("bedrockId").value = "";
+
+    document.getElementById("bedrockSelectedFile")
+      .textContent = "";
+
+    document.getElementById("bedrockCancel")
+      .classList.add("hidden");
+
+  }
+
+
+  function resetNewsForm() {
+
+    document.getElementById("newsForm").reset();
+
+    document.getElementById("newsId").value = "";
+
+    document.getElementById("newsCancel")
+      .classList.add("hidden");
+
+  }
+
+
+  /* =========================
+     CANCEL EDIT
+  ========================= */
+
+  document
+    .getElementById("javaCancel")
+    .addEventListener("click", resetJavaForm);
+
+
+  document
+    .getElementById("bedrockCancel")
+    .addEventListener("click", resetBedrockForm);
+
+
+  document
+    .getElementById("newsCancel")
+    .addEventListener("click", resetNewsForm);
+
+
+  /* =========================
+     LOAD ALL
+  ========================= */
+
+  function loadAll() {
+
+    loadJava();
+    loadBedrock();
+    loadNews();
+
+  }
+
+
+  /* =========================
+     ESCAPE HTML
+  ========================= */
+
+  function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+      return "";
+    }
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================
+     START
+  ========================= */
+
+  checkSession();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ModPulse | Bedrock Mods</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(151, 255, 0, 0.08), transparent 30%),
+        radial-gradient(circle at 85% 25%, rgba(120, 70, 255, 0.12), transparent 30%),
+        #070910;
+      min-height: 100vh;
+    }
+
+    /* NAVBAR */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 6%;
+      background: rgba(7, 9, 16, 0.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #aeb4c2;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    nav a:hover {
+      color: #a8ff00;
+      text-shadow: 0 0 15px rgba(168, 255, 0, 0.6);
+    }
+
+    /* HERO */
+
+    .hero {
+      width: 90%;
+      max-width: 1200px;
+      margin: 70px auto 40px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+
+      color: #b7ff39;
+      background: rgba(156, 255, 0, 0.08);
+      border: 1px solid rgba(156, 255, 0, 0.2);
+
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 75px);
+      font-weight: 900;
+
+      background: linear-gradient(
+        90deg,
+        #a8ff00,
+        #d8ff9a,
+        #8f5cff
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      text-shadow: 0 0 35px rgba(156, 255, 0, 0.12);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 20px auto 0;
+
+      color: #8e96a7;
+      line-height: 2;
+      font-size: 15px;
+    }
+
+    /* MAIN */
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* FILTERS */
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 14px;
+      margin: 40px 0;
+    }
+
+    .input-box {
+      position: relative;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px 18px;
+
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+
+      background: rgba(17, 21, 32, 0.8);
+      color: #fff;
+
+      outline: none;
+      font-size: 14px;
+
+      transition: 0.25s;
+    }
+
+    input::placeholder {
+      color: #697184;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(156,255,0,0.5);
+      box-shadow: 0 0 25px rgba(156,255,0,0.08);
+    }
+
+    select option {
+      background: #111520;
+      color: white;
+    }
+
+    /* STATUS */
+
+    .message {
+      text-align: center;
+      color: #737b8e;
+      margin: 30px 0;
+      min-height: 25px;
+    }
+
+    /* MOD GRID */
+
+    .mods {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+      padding-bottom: 70px;
+    }
+
+    /* CARD */
+
+    .card {
+      position: relative;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.015)
+        );
+
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+
+      padding: 24px;
+
+      backdrop-filter: blur(15px);
+
+      box-shadow:
+        0 15px 50px rgba(0,0,0,0.25);
+
+      transition:
+        transform 0.3s,
+        border-color 0.3s,
+        box-shadow 0.3s;
+    }
+
+    .card::before {
+      content: "";
+
+      position: absolute;
+      width: 150px;
+      height: 150px;
+
+      top: -80px;
+      right: -60px;
+
+      background: #9cff00;
+      opacity: 0.08;
+
+      filter: blur(50px);
+      border-radius: 50%;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+
+      border-color: rgba(156,255,0,0.3);
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.4),
+        0 0 30px rgba(156,255,0,0.05);
+    }
+
+    /* IMAGE */
+
+    .mod-image {
+      width: 100%;
+      height: 170px;
+
+      object-fit: cover;
+
+      border-radius: 15px;
+
+      margin-bottom: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(156,255,0,0.08),
+          rgba(120,70,255,0.12)
+        );
+
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .no-image {
+      height: 170px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+
+      margin-bottom: 20px;
+
+      color: #70788b;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(156,255,0,0.05),
+          rgba(120,70,255,0.08)
+        );
+
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+
+      font-size: 21px;
+
+      color: #fff;
+    }
+
+    .version {
+      display: inline-block;
+
+      padding: 6px 10px;
+
+      border-radius: 8px;
+
+      background: rgba(156,255,0,0.08);
+      border: 1px solid rgba(156,255,0,0.12);
+
+      color: #aaff1a;
+
+      font-size: 12px;
+
+      margin-bottom: 15px;
+    }
+
+    .description {
+      color: #9ba3b3;
+
+      line-height: 1.9;
+
+      font-size: 14px;
+
+      min-height: 78px;
+    }
+
+    /* DOWNLOAD */
+
+    .download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 20px;
+
+      padding: 13px 18px;
+
+      border-radius: 12px;
+
+      background: linear-gradient(
+        135deg,
+        #9cff00,
+        #72c900
+      );
+
+      color: #081000;
+
+      text-decoration: none;
+
+      font-weight: 900;
+
+      transition: 0.25s;
+
+      box-shadow:
+        0 8px 25px rgba(156,255,0,0.15);
+    }
+
+    .download:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 12px 30px rgba(156,255,0,0.25);
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 30px;
+      text-align: center;
+
+      color: #555d6d;
+
+      border-top: 1px solid rgba(255,255,255,0.06);
+
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+      nav {
+        gap: 15px;
+        padding: 14px;
+      }
+
+      .hero {
+        margin-top: 45px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .mods {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+
+  <nav>
+    <a href="index.html">خانه</a>
+    <a href="java.html">Java Mods</a>
+    <a href="bedrock.html">Bedrock Mods</a>
+    <a href="news.html">اخبار</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="badge">
+      MODPULSE • BEDROCK
+    </div>
+
+    <h1>
+      Bedrock Mods
+    </h1>
+
+    <p>
+      بهترین Add-on های Minecraft Bedrock را پیدا کن،
+      نسخه موردنظرت را انتخاب کن و مستقیماً دانلود کن.
+    </p>
+
+  </section>
+
+
+  <!-- CONTENT -->
+
+  <main class="container">
+
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+      <div class="input-box">
+
+        <input
+          type="text"
+          id="search"
+          placeholder="🔍 جستجوی Add-on..."
+        >
+
+      </div>
+
+      <select id="version">
+
+        <option value="">
+          همه نسخه‌ها
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div id="message" class="message">
+      در حال بارگذاری Add-on ها...
+    </div>
+
+
+    <!-- MODS -->
+
+    <div id="mods" class="mods"></div>
+
+  </main>
+
+
+  <footer>
+    © 2026 ModPulse — Minecraft Bedrock Mods
+  </footer>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    let allMods = [];
+
+
+    async function loadMods() {
+
+      const message =
+        document.getElementById("message");
+
+      try {
+
+        const { data, error } =
+          await supabaseClient
+            .from("bedrock_mods")
+            .select("*")
+            .order("created_at", {
+              ascending: false
+            });
+
+
+        if (error) {
+
+          console.error(error);
+
+          message.textContent =
+            "خطا در دریافت Add-on ها";
+
+          return;
+        }
+
+
+        allMods = data || [];
+
+        createVersions();
+
+        renderMods(allMods);
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          "خطایی در اتصال به سرور رخ داد.";
+
+      }
+
+    }
+
+
+    function createVersions() {
+
+      const versionSelect =
+        document.getElementById("version");
+
+      const versions =
+        [
+          ...new Set(
+            allMods
+              .map(mod => mod.minecraft_version)
+              .filter(Boolean)
+          )
+        ];
+
+
+      versions.forEach(version => {
+
+        const option =
+          document.createElement("option");
+
+        option.value = version;
+
+        option.textContent =
+          "Minecraft " + version;
+
+        versionSelect.appendChild(option);
+
+      });
+
+    }
+
+
+    function renderMods(mods) {
+
+      const container =
+        document.getElementById("mods");
+
+      const message =
+        document.getElementById("message");
+
+
+      container.innerHTML = "";
+
+
+      if (!mods.length) {
+
+        message.textContent =
+          "هنوز هیچ Add-on ای اضافه نشده.";
+
+        return;
+      }
+
+
+      message.textContent = "";
+
+
+      mods.forEach(mod => {
+
+        const card =
+          document.createElement("article");
+
+        card.className = "card";
+
+
+        let imageHTML = "";
+
+
+        if (mod.image_url) {
+
+          imageHTML = `
+            <img
+              class="mod-image"
+              src="${escapeHtml(mod.image_url)}"
+              alt="${escapeHtml(mod.name)}"
+              loading="lazy"
+            >
+          `;
+
+        }
+
+        else {
+
+          imageHTML = `
+            <div class="no-image">
+              🧩 Bedrock Add-on
+            </div>
+          `;
+
+        }
+
+
+        card.innerHTML = `
+
+          ${imageHTML}
+
+          <h2>
+            ${escapeHtml(mod.name)}
+          </h2>
+
+          <div class="version">
+            Minecraft ${escapeHtml(
+              mod.minecraft_version || "نامشخص"
+            )}
+          </div>
+
+          <div class="description">
+            ${escapeHtml(
+              mod.description ||
+              "توضیحی برای این Add-on ثبت نشده است."
+            )}
+          </div>
+
+          <a
+            class="download"
+            href="${escapeHtml(mod.download_url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ⬇ دانلود Add-on
+          </a>
+
+        `;
+
+
+        container.appendChild(card);
+
+      });
+
+    }
+
+
+    function filterMods() {
+
+      const search =
+        document
+          .getElementById("search")
+          .value
+          .toLowerCase()
+          .trim();
+
+
+      const version =
+        document.getElementById("version").value;
+
+
+      const filtered =
+        allMods.filter(mod => {
+
+          const name =
+            (mod.name || "").toLowerCase();
+
+          const description =
+            (mod.description || "").toLowerCase();
+
+
+          const matchesSearch =
+            name.includes(search) ||
+            description.includes(search);
+
+
+          const matchesVersion =
+            !version ||
+            mod.minecraft_version === version;
+
+
+          return (
+            matchesSearch &&
+            matchesVersion
+          );
+
+        });
+
+
+      renderMods(filtered);
+
+    }
+
+
+    function escapeHtml(text) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        text ?? "";
+
+      return div.innerHTML;
+
+    }
+
+
+    document
+      .getElementById("search")
+      .addEventListener(
+        "input",
+        filterMods
+      );
+
+
+    document
+      .getElementById("version")
+      .addEventListener(
+        "change",
+        filterMods
+      );
+
+
+    loadMods();
+
+  </script>
+
+</body>
+</html>

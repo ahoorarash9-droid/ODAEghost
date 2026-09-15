@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ModPulse | News</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      font-family: Tahoma, Arial, sans-serif;
+
+      color: #fff;
+
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 15% 15%,
+          rgba(156, 255, 0, 0.08),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 85% 25%,
+          rgba(120, 70, 255, 0.12),
+          transparent 30%
+        ),
+        #070910;
+
+    }
+
+
+    /* NAV */
+
+    nav {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 100;
+
+      padding: 16px 6%;
+
+      background: rgba(7, 9, 16, 0.78);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 28px;
+
+      flex-wrap: wrap;
+
+    }
+
+
+    nav a {
+
+      color: #aeb4c2;
+
+      text-decoration: none;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      transition: 0.25s;
+
+    }
+
+
+    nav a:hover {
+
+      color: #a8ff00;
+
+      text-shadow:
+        0 0 15px rgba(168, 255, 0, 0.6);
+
+    }
+
+
+    /* HERO */
+
+    .hero {
+
+      width: 90%;
+
+      max-width: 1100px;
+
+      margin: 70px auto 40px;
+
+      text-align: center;
+
+    }
+
+
+    .badge {
+
+      display: inline-block;
+
+      padding: 8px 16px;
+
+      border-radius: 999px;
+
+      color: #b7ff39;
+
+      background:
+        rgba(156, 255, 0, 0.08);
+
+      border:
+        1px solid rgba(156, 255, 0, 0.2);
+
+      font-size: 13px;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .hero h1 {
+
+      margin: 0;
+
+      font-size:
+        clamp(40px, 7vw, 75px);
+
+      font-weight: 900;
+
+      background:
+        linear-gradient(
+          90deg,
+          #a8ff00,
+          #d8ff9a,
+          #8f5cff
+        );
+
+      -webkit-background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+
+    }
+
+
+    .hero p {
+
+      max-width: 650px;
+
+      margin: 20px auto 0;
+
+      color: #8e96a7;
+
+      line-height: 2;
+
+      font-size: 15px;
+
+    }
+
+
+    /* CONTAINER */
+
+    .container {
+
+      width: 90%;
+
+      max-width: 1100px;
+
+      margin: auto;
+
+    }
+
+
+    /* SEARCH */
+
+    .search-box {
+
+      margin: 40px 0;
+
+    }
+
+
+    #search {
+
+      width: 100%;
+
+      padding: 16px 20px;
+
+      border-radius: 15px;
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      background:
+        rgba(17, 21, 32, 0.8);
+
+      color: white;
+
+      outline: none;
+
+      font-size: 14px;
+
+      transition: 0.25s;
+
+    }
+
+
+    #search::placeholder {
+      color: #697184;
+    }
+
+
+    #search:focus {
+
+      border-color:
+        rgba(156,255,0,0.5);
+
+      box-shadow:
+        0 0 25px
+        rgba(156,255,0,0.08);
+
+    }
+
+
+    /* MESSAGE */
+
+    .message {
+
+      text-align: center;
+
+      color: #737b8e;
+
+      margin: 30px 0;
+
+      min-height: 25px;
+
+    }
+
+
+    /* NEWS */
+
+    .news {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fill, minmax(310px, 1fr));
+
+      gap: 24px;
+
+      padding-bottom: 70px;
+
+    }
+
+
+    /* CARD */
+
+    .card {
+
+      position: relative;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.015)
+        );
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      border-radius: 22px;
+
+      backdrop-filter: blur(15px);
+
+      box-shadow:
+        0 15px 50px rgba(0,0,0,0.25);
+
+      transition:
+        transform 0.3s,
+        border-color 0.3s,
+        box-shadow 0.3s;
+
+    }
+
+
+    .card:hover {
+
+      transform:
+        translateY(-8px);
+
+      border-color:
+        rgba(156,255,0,0.3);
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.4);
+
+    }
+
+
+    /* IMAGE */
+
+    .news-image {
+
+      width: 100%;
+
+      height: 200px;
+
+      object-fit: cover;
+
+      display: block;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(156,255,0,0.08),
+          rgba(120,70,255,0.12)
+        );
+
+    }
+
+
+    .no-image {
+
+      height: 200px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      color: #70788b;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(156,255,0,0.05),
+          rgba(120,70,255,0.08)
+        );
+
+    }
+
+
+    /* CONTENT */
+
+    .content {
+
+      padding: 23px;
+
+    }
+
+
+    .date {
+
+      color: #9cff00;
+
+      font-size: 12px;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .content h2 {
+
+      margin: 0 0 14px;
+
+      font-size: 21px;
+
+      line-height: 1.6;
+
+    }
+
+
+    .content p {
+
+      color: #9ba3b3;
+
+      font-size: 14px;
+
+      line-height: 2;
+
+      white-space: pre-line;
+
+    }
+
+
+    /* FOOTER */
+
+    footer {
+
+      padding: 30px;
+
+      text-align: center;
+
+      color: #555d6d;
+
+      border-top:
+        1px solid rgba(255,255,255,0.06);
+
+      font-size: 13px;
+
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+      nav {
+
+        gap: 15px;
+
+        padding: 14px;
+
+      }
+
+
+      .hero {
+
+        margin-top: 45px;
+
+      }
+
+
+      .news {
+
+        grid-template-columns: 1fr;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- NAV -->
+
+  <nav>
+
+    <a href="index.html">خانه</a>
+
+    <a href="java.html">Java Mods</a>
+
+    <a href="bedrock.html">Bedrock Mods</a>
+
+    <a href="news.html">اخبار</a>
+
+    <a href="admin.html">Admin</a>
+
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="badge">
+      MODPULSE • NEWS
+    </div>
+
+
+    <h1>
+      News
+    </h1>
+
+
+    <p>
+
+      آخرین اخبار، آپدیت‌ها و اتفاقات
+      مربوط به Minecraft و ModPulse.
+
+    </p>
+
+  </section>
+
+
+  <!-- CONTENT -->
+
+  <main class="container">
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        id="search"
+        placeholder="🔍 جستجوی خبر..."
+      >
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div
+      id="message"
+      class="message"
+    >
+      در حال بارگذاری اخبار...
+    </div>
+
+
+    <!-- NEWS -->
+
+    <div
+      id="news"
+      class="news"
+    ></div>
+
+
+  </main>
+
+
+  <footer>
+
+    © 2026 ModPulse — Minecraft News
+
+  </footer>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    let allNews = [];
+
+
+    /* LOAD NEWS */
+
+    async function loadNews() {
+
+      const message =
+        document.getElementById("message");
+
+
+      try {
+
+        const { data, error } =
+          await supabaseClient
+
+            .from("news")
+
+            .select("*")
+
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            );
+
+
+        if (error) {
+
+          console.error(error);
+
+          message.textContent =
+            "خطا در دریافت اخبار.";
+
+          return;
+
+        }
+
+
+        allNews = data || [];
+
+
+        renderNews(allNews);
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          "خطایی در اتصال به سرور رخ داد.";
+
+      }
+
+    }
+
+
+    /* RENDER */
+
+    function renderNews(newsList) {
+
+      const container =
+        document.getElementById("news");
+
+
+      const message =
+        document.getElementById("message");
+
+
+      container.innerHTML = "";
+
+
+      if (!newsList.length) {
+
+        message.textContent =
+          "هنوز هیچ خبری منتشر نشده است.";
+
+        return;
+
+      }
+
+
+      message.textContent = "";
+
+
+      newsList.forEach(item => {
+
+
+        const card =
+          document.createElement("article");
+
+
+        card.className = "card";
+
+
+        let imageHTML = "";
+
+
+        if (item.image_url) {
+
+          imageHTML = `
+
+            <img
+
+              class="news-image"
+
+              src="${escapeHtml(
+                item.image_url
+              )}"
+
+              alt="${escapeHtml(
+                item.title
+              )}"
+
+              loading="lazy"
+
+            >
+
+          `;
+
+        }
+
+        else {
+
+          imageHTML= `
+
+            <div class="no-image">
+
+              📰 ModPulse News
+
+            </div>
+
+          `;
+
+        }
+
+
+        const date =
+          item.created_at
+            ? new Date(
+                item.created_at
+              ).toLocaleDateString(
+                "fa-IR"
+              )
+            : "";
+
+
+        card.innerHTML = `
+
+          ${imageHTML}
+
+
+          <div class="content">
+
+            <div class="date">
+
+              ${escapeHtml(date)}
+
+            </div>
+
+
+            <h2>
+
+              ${escapeHtml(
+                item.title
+              )}
+
+            </h2>
+
+
+            <p>
+
+              ${escapeHtml(
+                item.content
+              )}
+
+            </p>
+
+          </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+      });
+
+    }
+
+
+    /* SEARCH */
+
+    function filterNews() {
+
+      const search =
+        document
+
+          .getElementById("search")
+
+          .value
+
+          .toLowerCase()
+
+          .trim();
+
+
+      const filtered =
+        allNews.filter(item => {
+
+
+          const title =
+            (
+              item.title || ""
+            ).toLowerCase();
+
+
+          const content =
+            (
+              item.content || ""
+            ).toLowerCase();
+
+
+          return (
+            title.includes(search) ||
+            content.includes(search)
+          );
+
+        });
+
+
+      renderNews(filtered);
+
+    }
+
+
+    /* ESCAPE HTML */
+
+    function escapeHtml(text) {
+
+      const div =
+        document.createElement("div");
+
+
+      div.textContent =
+        text ?? "";
+
+
+      return div.innerHTML;
+
+    }
+
+
+    /* SEARCH EVENT */
+
+    document
+
+      .getElementById("search")
+
+      .addEventListener(
+        "input",
+        filterNews
+      );
+
+
+    /* START */
+
+    loadNews();
+
+  </script>
+
+
+</body>
+
+</html>
