@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>ODAEghost | مرکز گیمینگ</title>
-  <meta name="description" content="ODAEghost - مرکز مود، بازی و اخبار گیمینگ">
+  <title>ODAEghost | Gaming Hub</title>
 
   <style>
     * {
@@ -21,9 +20,9 @@
     body {
       font-family: Tahoma, Arial, sans-serif;
       background:
-        radial-gradient(circle at 15% 20%, rgba(139,92,246,.18), transparent 30%),
-        radial-gradient(circle at 85% 70%, rgba(0,229,255,.12), transparent 30%),
-        #070812;
+        radial-gradient(circle at 15% 10%, rgba(0,255,136,.08), transparent 28%),
+        radial-gradient(circle at 90% 75%, rgba(0,255,136,.05), transparent 30%),
+        #080a0c;
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
@@ -34,71 +33,62 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background:
-        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
-      background-size: 40px 40px;
       z-index: -2;
+      background:
+        linear-gradient(rgba(255,255,255,.014) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+      background-size: 45px 45px;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: #00ff88;
+      filter: blur(120px);
+      opacity: .055;
+      top: 5%;
+      left: -160px;
+      z-index: -1;
+      pointer-events: none;
+      animation: glowMove 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowMove {
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(220px, 130px);
+      }
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
-    /* Floating lights */
-
-    .orb {
-      position: fixed;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: .18;
-      pointer-events: none;
-      z-index: -1;
-      animation: floatOrb 8s ease-in-out infinite alternate;
-    }
-
-    .orb.one {
-      background: #8b5cf6;
-      top: 80px;
-      left: -100px;
-    }
-
-    .orb.two {
-      background: #00e5ff;
-      right: -120px;
-      bottom: 80px;
-      animation-delay: 2s;
-    }
-
-    @keyframes floatOrb {
-      from {
-        transform: translateY(-20px) translateX(0);
-      }
-      to {
-        transform: translateY(30px) translateX(30px);
-      }
-    }
-
-    /* Header */
+    /* HEADER */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
+      background: rgba(8,10,12,.88);
       backdrop-filter: blur(18px);
-      background: rgba(7,8,18,.78);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      animation: headerDown .7s ease both;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      animation: headerIn .7s ease both;
     }
 
-    @keyframes headerDown {
+    @keyframes headerIn {
       from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-25px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -108,7 +98,7 @@
     .header-inner {
       max-width: 1200px;
       margin: auto;
-      padding: 16px 22px;
+      padding: 15px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -116,208 +106,176 @@
     }
 
     .logo {
-      font-size: 25px;
-      font-weight: 900;
+      font-size: 26px;
+      font-weight: 1000;
       letter-spacing: 1px;
       white-space: nowrap;
-      text-shadow: 0 0 20px rgba(139,92,246,.5);
       transition: .3s;
+    }
+
+    .logo span {
+      color: #00ff88;
+      text-shadow: 0 0 20px rgba(0,255,136,.5);
     }
 
     .logo:hover {
       transform: scale(1.05);
     }
 
-    .logo span {
-      color: #00e5ff;
-    }
-
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      gap: 7px;
       flex-wrap: wrap;
     }
 
     .nav-links a {
+      position: relative;
       padding: 10px 15px;
-      border-radius: 12px;
-      color: #cdd1e6;
+      border-radius: 11px;
+      color: #aeb5b9;
       font-size: 14px;
       transition: .3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav-links a::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(139,92,246,.2),
-        transparent
-      );
-      transform: translateX(-100%);
-      transition: .5s;
-    }
-
-    .nav-links a:hover::before {
-      transform: translateX(100%);
     }
 
     .nav-links a:hover {
       color: #fff;
-      background: rgba(139,92,246,.14);
+      background: rgba(0,255,136,.07);
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(139,92,246,.12);
     }
 
-    /* Hero */
+    .nav-links a.active {
+      color: #00ff88;
+      background: rgba(0,255,136,.06);
+    }
+
+    /* HERO */
 
     .hero {
       max-width: 1200px;
       min-height: 650px;
       margin: auto;
-      padding: 100px 22px 70px;
+      padding: 90px 22px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       text-align: center;
-      position: relative;
     }
 
     .hero-content {
       max-width: 850px;
-      animation: heroIn 1s .15s ease both;
+      animation: heroIn 1s ease both;
     }
 
     @keyframes heroIn {
       from {
         opacity: 0;
-        transform: translateY(40px) scale(.97);
+        transform: translateY(45px);
       }
+
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
     }
 
-    .badge {
+    .status {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 15px;
+      gap: 9px;
+      padding: 9px 16px;
+      border: 1px solid rgba(0,255,136,.2);
+      background: rgba(0,255,136,.05);
       border-radius: 999px;
-      background: rgba(139,92,246,.12);
-      border: 1px solid rgba(139,92,246,.3);
-      color: #cfc4ff;
+      color: #b9ffd9;
       font-size: 13px;
       margin-bottom: 25px;
-      animation: badgePulse 2.5s ease-in-out infinite;
+      animation: pulse 2.5s infinite;
     }
 
-    @keyframes badgePulse {
-      0%,100% {
-        box-shadow: 0 0 0 rgba(139,92,246,0);
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 rgba(0,255,136,0);
       }
+
       50% {
-        box-shadow: 0 0 25px rgba(139,92,246,.18);
+        box-shadow: 0 0 25px rgba(0,255,136,.12);
       }
     }
 
-    .badge-dot {
+    .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #35ff9b;
-      box-shadow: 0 0 12px #35ff9b;
+      background: #00ff88;
+      box-shadow: 0 0 12px #00ff88;
     }
 
     .hero h1 {
-      font-size: clamp(45px, 8vw, 88px);
+      font-size: clamp(50px, 9vw, 95px);
       line-height: 1;
       font-weight: 1000;
       margin-bottom: 25px;
-      background: linear-gradient(
-        90deg,
-        #fff,
-        #b99cff,
-        #00e5ff,
-        #fff
-      );
-      background-size: 250% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientMove 5s linear infinite;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(0,255,136,.12);
     }
 
-    @keyframes gradientMove {
-      to {
-        background-position: 250% center;
-      }
+    .hero h1 span {
+      color: #00ff88;
+      text-shadow: 0 0 28px rgba(0,255,136,.5);
     }
 
     .hero p {
-      color: #aeb4cb;
+      color: #929a9f;
       font-size: 18px;
       line-height: 2;
-      max-width: 700px;
-      margin: auto;
     }
+
+    /* BUTTONS */
 
     .hero-buttons {
       margin-top: 35px;
       display: flex;
       justify-content: center;
-      gap: 14px;
+      gap: 13px;
       flex-wrap: wrap;
     }
 
     .btn {
       position: relative;
       overflow: hidden;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 170px;
-      padding: 14px 22px;
-      border-radius: 14px;
+      min-width: 175px;
+      padding: 14px 21px;
+      border-radius: 13px;
       font-weight: 800;
-      transition: .3s;
       border: 1px solid rgba(255,255,255,.1);
+      transition: .3s;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #8b5cf6, #6d42e8);
-      box-shadow: 0 10px 35px rgba(139,92,246,.25);
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,.05);
-      color: #dce2f5;
-    }
-
-    .btn::after {
+    .btn::before {
       content: "";
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 70%;
+      left: -110%;
+      width: 65%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.22),
-        transparent
-      );
+      background: rgba(255,255,255,.2);
       transform: skewX(-20deg);
       transition: .6s;
     }
 
-    .btn:hover::after {
+    .btn:hover::before {
       left: 140%;
+    }
+
+    .btn-primary {
+      background: #00d978;
+      color: #03140d;
+      box-shadow: 0 10px 30px rgba(0,255,136,.14);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+      color: #e7e9ea;
     }
 
     .btn:hover {
@@ -325,19 +283,20 @@
     }
 
     .btn-primary:hover {
-      box-shadow: 0 15px 45px rgba(139,92,246,.4);
+      background: #00ff88;
+      box-shadow: 0 15px 40px rgba(0,255,136,.25);
     }
 
     .btn-secondary:hover {
-      background: rgba(255,255,255,.09);
-      border-color: rgba(0,229,255,.3);
+      background: rgba(0,255,136,.06);
+      border-color: rgba(0,255,136,.3);
     }
 
-    /* Sections */
+    /* SECTIONS */
 
     .section {
       max-width: 1200px;
-      margin: 0 auto;
+      margin: auto;
       padding: 70px 22px;
     }
 
@@ -347,22 +306,22 @@
     }
 
     .section-title small {
-      color: #00e5ff;
-      font-weight: 800;
+      color: #00ff88;
+      font-weight: 900;
       letter-spacing: 2px;
     }
 
     .section-title h2 {
-      font-size: 35px;
-      margin-top: 10px;
+      font-size: 34px;
+      margin-top: 9px;
     }
 
     .section-title p {
-      color: #8f96ad;
+      color: #777f84;
       margin-top: 10px;
     }
 
-    /* Cards */
+    /* CARDS */
 
     .cards {
       display: grid;
@@ -372,26 +331,26 @@
 
     .card {
       position: relative;
+      overflow: hidden;
       padding: 28px;
-      min-height: 220px;
-      border-radius: 24px;
+      min-height: 225px;
+      border-radius: 22px;
       background: linear-gradient(
         145deg,
-        rgba(255,255,255,.07),
-        rgba(255,255,255,.025)
+        rgba(255,255,255,.065),
+        rgba(255,255,255,.018)
       );
-      border: 1px solid rgba(255,255,255,.08);
-      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
       transition: .4s;
       animation: cardIn .8s ease both;
     }
 
     .card:nth-child(2) {
-      animation-delay: .1s;
+      animation-delay: .12s;
     }
 
     .card:nth-child(3) {
-      animation-delay: .2s;
+      animation-delay: .24s;
     }
 
     @keyframes cardIn {
@@ -399,6 +358,7 @@
         opacity: 0;
         transform: translateY(35px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -408,27 +368,29 @@
     .card::before {
       content: "";
       position: absolute;
-      width: 150px;
-      height: 150px;background: #8b5cf6;
-      filter: blur(80px);
-      opacity: .12;
-      top: -60px;
-      right: -60px;
+      width: 140px;
+      height: 140px;
+      right: -70px;
+      top: -70px;
+      border-radius: 50%;
+      background: #00ff88;
+      filter: blur(70px);
+      opacity: .07;
       transition: .4s;
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(139,92,246,.4);
-      box-shadow: 0 20px 55px rgba(0,0,0,.25);
+      transform: translateY(-9px);
+      border-color: rgba(0,255,136,.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,.3);
     }
 
     .card:hover::before {
-      opacity: .25;
+      opacity: .2;
     }
 
     .card-icon {
-      font-size: 38px;
+      font-size: 40px;
       margin-bottom: 18px;
     }
 
@@ -438,59 +400,68 @@
     }
 
     .card p {
-      color: #9299b1;
+      color: #858d92;
       line-height: 1.9;
     }
 
-    /* Stats */
+    /* VISITS */
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .stat {
+    .visit-box {
+      max-width: 550px;
+      margin: auto;
       text-align: center;
-      padding: 30px 15px;
-      border-radius: 20px;
+      padding: 35px 25px;
+      border-radius: 24px;
       background: rgba(255,255,255,.035);
-      border: 1px solid rgba(255,255,255,.07);
-      transition: .3s;
+      border: 1px solid rgba(0,255,136,.15);
+      box-shadow: 0 15px 50px rgba(0,0,0,.2);
+      animation: visitIn 1s ease;
     }
 
-    .stat:hover {
-      transform: translateY(-5px);
-      border-color: rgba(0,229,255,.3);
+    @keyframes visitIn {
+      from {
+        opacity: 0;
+        transform: scale(.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
-    .stat strong {
-      display: block;
-      font-size: 35px;
-      margin-bottom: 8px;
-      color: #fff;
+    .visit-icon {font-size: 38px;
+      margin-bottom: 10px;
     }
 
-    .stat span {
-      color: #8d94aa;
+    .visit-number {
+      font-size: 42px;
+      font-weight: 1000;
+      color: #00ff88;
+      text-shadow: 0 0 20px rgba(0,255,136,.3);
+      margin: 8px 0;
     }
 
-    /* Footer */
+    .visit-text {
+      color: #8b9398;
+    }
+
+    /* FOOTER */
 
     footer {
-      margin-top: 70px;
-      border-top: 1px solid rgba(255,255,255,.07);
+      margin-top: 60px;
       padding: 35px 20px;
       text-align: center;
-      color: #777e94;
-      background: rgba(0,0,0,.15);
+      color: #687176;
+      border-top: 1px solid rgba(255,255,255,.07);
+      line-height: 1.8;
     }
 
     footer strong {
-      color: #00e5ff;
+      color: #00ff88;
     }
 
-    /* Responsive */
+    /* MOBILE */
 
     @media (max-width: 850px) {
       .header-inner {
@@ -501,16 +472,7 @@
         justify-content: center;
       }
 
-      .hero {
-        min-height: 560px;
-        padding-top: 70px;
-      }
-
       .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .stats {
         grid-template-columns: 1fr;
       }
     }
@@ -523,16 +485,25 @@
       .nav-links a {
         flex: 1;
         text-align: center;
-        padding: 9px 5px;
-        font-size: 12px;
+        padding: 9px 4px;
+        font-size: 11px;
+      }
+
+      .hero {
+        min-height: 550px;
+        padding: 65px 16px;
       }
 
       .hero h1 {
-        font-size: 48px;
+        font-size: 52px;
       }
 
       .hero p {
         font-size: 15px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
       }
 
       .btn {
@@ -546,11 +517,9 @@
 
     @media (prefers-reduced-motion: reduce) {
       *,
-      *::before,
-      *::after {
+      *::before {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
         transition-duration: .01ms !important;
       }
     }
@@ -558,9 +527,6 @@
 </head>
 
 <body>
-
-  <div class="orb one"></div>
-  <div class="orb two"></div>
 
   <!-- HEADER -->
   <header>
@@ -571,10 +537,23 @@
       </a>
 
       <nav class="nav-links">
-        <a href="index.html">🏠 خانه</a>
-        <a href="java.html">☕ Java Mods</a>
-        <a href="bedrock.html">📱 Bedrock Mods</a>
-        <a href="news.html">📰 اخبار</a>
+
+        <a href="index.html" class="active">
+          🏠 خانه
+        </a>
+
+        <a href="java.html">
+          ☕ Java Mods
+        </a>
+
+        <a href="bedrock.html">
+          📱 Bedrock Mods
+        </a>
+
+        <a href="news.html">
+          📰 اخبار
+        </a>
+
       </nav>
 
     </div>
@@ -585,14 +564,17 @@
   <main>
 
     <section class="hero">
+
       <div class="hero-content">
 
-        <div class="badge">
-          <span class="badge-dot"></span>
-          ODAEghost در حال فعالیت است
+        <div class="status">
+          <span class="status-dot"></span>
+          ODAEghost آنلاین است
         </div>
 
-        <h1>ODAEghost</h1>
+        <h1>
+          ODAE<span>ghost</span>
+        </h1>
 
         <p>
           دنیای مودها، بازی‌ها و اخبار گیمینگ
@@ -603,11 +585,11 @@
         <div class="hero-buttons">
 
           <a href="java.html" class="btn btn-primary">
-            ☕ مشاهده Java Mods
+            ☕ Java Mods
           </a>
 
           <a href="bedrock.html" class="btn btn-secondary">
-            📱 مشاهده Bedrock Mods
+            📱 Bedrock Mods
           </a>
 
           <a href="news.html" class="btn btn-secondary">
@@ -617,6 +599,7 @@
         </div>
 
       </div>
+
     </section>
 
 
@@ -625,16 +608,17 @@
 
       <div class="section-title">
         <small>ODAEGHOST</small>
-        <h2>اینجا چی پیدا می‌کنی؟</h2>
-        <p>بخش‌های اصلی سایت را سریع پیدا کن</p>
+        <h2>بخش‌های سایت</h2>
+        <p>بخش موردنظر خودت را انتخاب کن</p>
       </div>
 
       <div class="cards">
 
         <a href="java.html" class="card">
           <div class="card-icon">☕</div>
-          <h3>Java Mods</h3><p>
-            مودهای Minecraft Java را پیدا کن و به صفحه مخصوص مودهای جاوا برو.
+          <h3>Java Mods</h3>
+          <p>
+            مودهای Minecraft Java را مشاهده و دانلود کن.
           </p>
         </a>
 
@@ -642,7 +626,7 @@
           <div class="card-icon">📱</div>
           <h3>Bedrock Mods</h3>
           <p>
-            مودها و فایل‌های مخصوص Minecraft Bedrock در یک بخش جداگانه.
+            مودها و فایل‌های Minecraft Bedrock را پیدا کن.
           </p>
         </a>
 
@@ -650,7 +634,7 @@
           <div class="card-icon">📰</div>
           <h3>Gaming News</h3>
           <p>
-            اخبار و مطالب جدید دنیای گیمینگ را از بخش اخبار دنبال کن.
+            جدیدترین اخبار و مطالب گیمینگ را دنبال کن.
           </p>
         </a>
 
@@ -659,30 +643,30 @@
     </section>
 
 
-    <!-- STATS -->
+    <!-- VISITS -->
     <section class="section">
 
       <div class="section-title">
-        <small>GAMING HUB</small>
-        <h2>ODAEghost</h2>
-        <p>یک مرکز گیمینگ برای گیمرها</p>
+        <small>STATISTICS</small>
+        <h2>آمار سایت</h2>
+        <p>بازدیدهای ثبت‌شده روی این دستگاه</p>
       </div>
 
-      <div class="stats">
+      <div class="visit-box">
 
-        <div class="stat">
-          <strong>☕</strong>
-          <span>Java Mods</span>
+        <div class="visit-icon">
+          👁️
         </div>
 
-        <div class="stat">
-          <strong>📱</strong>
-          <span>Bedrock Mods</span>
+        <div
+          class="visit-number"
+          id="visitCount"
+        >
+          0
         </div>
 
-        <div class="stat">
-          <strong>📰</strong>
-          <span>Gaming News</span>
+        <div class="visit-text">
+          بازدید
         </div>
 
       </div>
@@ -694,11 +678,36 @@
 
   <!-- FOOTER -->
   <footer>
-    ساخته شده برای گیمرها با ❤️
-    <br><br>
+    ساخته شده برای گیمرها ❤️
+    <br>
     © 2026 <strong>ODAEghost</strong>
   </footer>
 
+
+  <!-- VISIT COUNTER -->
+  <script>
+
+    const visitKey = "odaeghost_visit_count";
+
+    let visits =
+      Number(localStorage.getItem(visitKey)) || 0;
+
+    visits++;
+
+    localStorage.setItem(
+      visitKey,
+      visits
+    );
+
+    const visitElement =
+      document.getElementById("visitCount");
+
+    if (visitElement) {
+      visitElement.textContent =
+        visits.toLocaleString("fa-IR");
+    }
+
+  </script>
 
 </body>
 </html>
