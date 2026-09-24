@@ -1,1220 +1,704 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>ODAEghost | Java Mods</title>
-    <meta name="description" content="ODAEghost - Minecraft Java Mods">
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Tahoma, Arial, sans-serif;
-            background:
-                radial-gradient(circle at 10% 10%, rgba(101,240,82,.12), transparent 28%),
-                radial-gradient(circle at 90% 10%, rgba(125,70,255,.14), transparent 30%),
-                radial-gradient(circle at 50% 60%, rgba(40,120,255,.07), transparent 35%),
-                #06080c;
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-            background-size: 55px 55px;
-            mask-image: linear-gradient(to bottom, black, transparent 80%);
-            z-index: -1;
-        }
-
-        /* ================= HEADER ================= */
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 15px 6%;
-            background: rgba(6,8,12,.78);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border-bottom: 1px solid rgba(255,255,255,.07);
-            animation: headerIn .8s ease both;
-        }
-
-        .navbar {
-            max-width: 1250px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 25px;
-        }
-
-        .logo {
-            color: #fff;
-            text-decoration: none;
-            font-size: 27px;
-            font-weight: 950;
-            letter-spacing: 1px;
-            transition: .3s;
-        }
-
-        .logo:hover {
-            transform: scale(1.04);
-        }
-
-        .logo span {
-            color: #65f052;
-            text-shadow:
-                0 0 12px rgba(101,240,82,.7),
-                0 0 30px rgba(101,240,82,.25);
-        }
-
-        nav {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        nav a {
-            position: relative;
-            color: #aeb7c2;
-            text-decoration: none;
-            font-size: 13px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            transition: .3s;
-        }
-
-        nav a::after {
-            content: "";
-            position: absolute;
-            bottom: 3px;
-            right: 50%;
-            width: 0;
-            height: 2px;
-            background: #65f052;
-            box-shadow: 0 0 10px #65f052;
-            transition: .3s;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #65f052;
-            background: rgba(101,240,82,.08);
-            transform: translateY(-2px);
-        }
-
-        nav a:hover::after,
-        nav a.active::after {
-            width: 45%;
-            right: 27.5%;
-        }
-
-        /* ================= HERO ================= */
-
-        .hero {
-            position: relative;
-            max-width: 1150px;
-            margin: auto;
-            padding: 95px 20px 55px;
-            text-align: center;
-            animation: heroIn 1s ease both;
-        }
-
-        .hero-glow {
-            position: absolute;
-            width: 420px;
-            height: 420px;
-            border-radius: 50%;
-            background: rgba(101,240,82,.08);
-            filter: blur(110px);
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
-            animation: glowPulse 5s ease-in-out infinite;
-        }
-
-        .badge {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 17px;
-            margin-bottom: 22px;
-            border-radius: 999px;
-            color: #65f052;
-            background: rgba(101,240,82,.055);
-            border: 1px solid rgba(101,240,82,.22);
-            box-shadow: 0 0 30px rgba(101,240,82,.06);
-            font-size: 12px;
-            animation: badgeFloat 3s ease-in-out infinite;
-        }
-
-        .hero h1 {
-            position: relative;
-            font-size: clamp(48px, 9vw, 90px);
-            line-height: 1;
-            font-weight: 950;
-            letter-spacing: -4px;
-            margin-bottom: 20px;
-            animation: titleReveal 1s .15s both;
-        }
-
-        .hero h1 span {
-            color: #65f052;
-            text-shadow:
-                0 0 15px rgba(101,240,82,.7),
-                0 0 50px rgba(101,240,82,.25);
-        }
-
-        .hero h2 {
-            position: relative;
-            color: #e4e8ec;
-            font-size: clamp(20px, 4vw, 30px);
-            margin-bottom: 15px;
-            animation: fadeUp .9s .3s both;
-        }
-
-        .hero p {
-            position: relative;
-            max-width: 650px;
-            margin: auto;
-            color: #89939f;
-            font-size: 14px;
-            line-height: 2;
-            animation: fadeUp .9s .45s both;
-        }
-
-        /* ================= FILTER ================= */
-
-        .filter-box {
-            max-width: 1100px;
-            margin: 10px auto 55px;
-            padding: 0 20px;
-            animation: filterIn .8s .4s both;
-        }
-
-        .filters {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr;
-            gap: 13px;
-            padding: 18px;
-            border-radius: 22px;
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.055),
-                    rgba(255,255,255,.012)
-                );
-            border: 1px solid rgba(255,255,255,.075);
-            box-shadow: 0 20px 55px rgba(0,0,0,.2);
-        }
-
-        .input-wrap {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            opacity: .65;
-        }
-
-        input,
-        select {
-            width: 100%;
-            height: 50px;
-            padding: 0 45px 0 15px;
-            color: #fff;
-            background: rgba(255,255,255,.035);
-            border: 1px solid rgba(255,255,255,.09);
-            border-radius: 14px;
-            outline: none;
-            font-family: inherit;
-            transition: .3s;
-        }
-
-        select {
-            padding-right: 15px;
-        }
-
-        select option {
-            background: #10141b;
-            color: #fff;
-        }
-
-        input::placeholder {
-            color: #69747f;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: rgba(101,240,82,.45);
-            background: rgba(101,240,82,.035);
-            box-shadow:
-                0 0 0 3px rgba(101,240,82,.06),
-                0 0 25px rgba(101,240,82,.08);
-            transform: translateY(-2px);
-        }
-
-        /* ================= MODS ================= */
-
-        .mods-section {
-            max-width: 1150px;
-            margin: auto;
-            padding: 0 20px 100px;
-        }
-
-        .section-head {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 25px;
-            animation: fadeUp .8s both;
-        }
-
-        .section-title {
-            font-size: 27px;
-            font-weight: 950;
-        }
-
-        .section-title span {
-            color: #65f052;
-        }
-
-        .section-subtitle {
-            color: #727d88;
-            font-size: 12px;
-            margin-top: 8px;
-        }#message {
-            color: #7e8995;
-            font-size: 12px;
-            margin-bottom: 18px;
-        }
-
-        .mods-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        /* ================= CARD ================= */
-
-        .mod-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 21px;
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.055),
-                    rgba(255,255,255,.012)
-                );
-            border: 1px solid rgba(255,255,255,.075);
-            box-shadow: 0 20px 55px rgba(0,0,0,.2);
-            transition: .45s cubic-bezier(.2,.8,.2,1);
-            animation: cardReveal .7s both;
-        }
-
-        .mod-card::before {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(101,240,82,.07);
-            filter: blur(55px);
-            top: -90px;
-            right: -70px;
-            pointer-events: none;
-            transition: .5s;
-        }
-
-        .mod-card:hover {
-            transform: translateY(-9px) scale(1.012);
-            border-color: rgba(101,240,82,.25);
-            box-shadow:
-                0 28px 65px rgba(0,0,0,.3),
-                0 0 30px rgba(101,240,82,.045);
-        }
-
-        .mod-card:hover::before {
-            transform: scale(1.5);
-        }
-
-        .mod-image-wrap {
-            position: relative;
-            overflow: hidden;
-            height: 190px;
-            background: #0c1016;
-        }
-
-        .mod-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: .55s cubic-bezier(.2,.8,.2,1);
-        }
-
-        .mod-card:hover .mod-image {
-            transform: scale(1.07);
-        }
-
-        .mod-image-overlay {
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(
-                    to top,
-                    rgba(6,8,12,.75),
-                    transparent 60%
-                );
-            pointer-events: none;
-        }
-
-        .mod-version {
-            position: absolute;
-            top: 13px;
-            right: 13px;
-            padding: 7px 10px;
-            border-radius: 9px;
-            color: #65f052;
-            background: rgba(6,8,12,.75);
-            border: 1px solid rgba(101,240,82,.22);
-            backdrop-filter: blur(10px);
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .mod-loader {
-            position: absolute;
-            top: 13px;
-            left: 13px;
-            padding: 7px 10px;
-            border-radius: 9px;
-            color: #fff;
-            background: rgba(125,70,255,.75);
-            border: 1px solid rgba(170,130,255,.3);
-            backdrop-filter: blur(10px);
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .mod-content {
-            padding: 20px;
-        }
-
-        .mod-content h3 {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-
-        .mod-content p {
-            color: #7e8995;
-            font-size: 12px;
-            line-height: 1.9;
-            min-height: 68px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .mod-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 17px;
-        }
-
-        .download-btn {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 43px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            background: #65f052;color: #061006;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: bold;
-            transition: .3s;
-        }
-
-        .download-btn::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -120%;
-            width: 70%;
-            height: 100%;
-            background: rgba(255,255,255,.35);
-            transform: skewX(-20deg);
-            transition: .6s;
-        }
-
-        .download-btn:hover::before {
-            left: 130%;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 28px rgba(101,240,82,.28);
-        }
-
-        .version-small {
-            color: #69747f;
-            font-size: 10px;
-            white-space: nowrap;
-        }
-
-        /* ================= EMPTY ================= */
-
-        .empty {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 70px 20px;
-            border-radius: 22px;
-            color: #69747f;
-            background: rgba(255,255,255,.025);
-            border: 1px dashed rgba(255,255,255,.09);
-            animation: emptyIn .6s both;
-        }
-
-        .empty-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            opacity: .7;
-        }
-
-        /* ================= FOOTER ================= */
-
-        footer {
-            border-top: 1px solid rgba(255,255,255,.07);
-            padding: 30px 20px;
-            text-align: center;
-            color: #69737e;
-            font-size: 12px;
-            background: rgba(0,0,0,.18);
-        }
-
-        footer strong {
-            color: #65f052;
-        }
-
-        /* ================= ANIMATIONS ================= */
-
-        @keyframes headerIn {
-            from {
-                opacity: 0;
-                transform: translateY(-25px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes heroIn {
-            from {
-                opacity: 0;
-                transform: translateY(35px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes titleReveal {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(.95);
-                filter: blur(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(22px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes filterIn {
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes cardReveal {
-            from {
-                opacity: 0;
-                transform: translateY(35px) scale(.97);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes emptyIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes glowPulse {
-            0%, 100% {
-                opacity: .55;
-                transform: translateX(-50%) scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translateX(-50%) scale(1.08);
-            }
-        }
-
-        @keyframes badgeFloat {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 850px) {
-
-            .navbar {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            nav {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            nav a {
-                font-size: 11px;
-                padding: 8px 9px;
-            }
-
-            .hero {
-                padding-top: 70px;
-            }
-
-            .filters {
-                grid-template-columns: 1fr;
-            }
-
-            .mods-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 560px) {
-
-            .hero h1 {
-                font-size: 52px;
-                letter-spacing: -3px;
-            }
-
-            .hero h2 {
-                font-size: 20px;
-            }
-
-            .hero p {
-                font-size: 12px;
-            }
-
-            .mods-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .mod-image-wrap {
-                height: 210px;
-            }
-
-            .section-head {
-                align-items: flex-start;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
-                animation-duration: .01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: .01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ODAEghost | مرکز گیمینگ</title>
+  <meta name="description" content="ODAEghost - مرکز مود، بازی و اخبار گیمینگ">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(139,92,246,.18), transparent 30%),
+        radial-gradient(circle at 85% 70%, rgba(0,229,255,.12), transparent 30%),
+        #070812;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -2;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Floating lights */
+
+    .orb {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .18;
+      pointer-events: none;
+      z-index: -1;
+      animation: floatOrb 8s ease-in-out infinite alternate;
+    }
+
+    .orb.one {
+      background: #8b5cf6;
+      top: 80px;
+      left: -100px;
+    }
+
+    .orb.two {
+      background: #00e5ff;
+      right: -120px;
+      bottom: 80px;
+      animation-delay: 2s;
+    }
+
+    @keyframes floatOrb {
+      from {
+        transform: translateY(-20px) translateX(0);
+      }
+      to {
+        transform: translateY(30px) translateX(30px);
+      }
+    }
+
+    /* Header */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(18px);
+      background: rgba(7,8,18,.78);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      animation: headerDown .7s ease both;
+    }
+
+    @keyframes headerDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      text-shadow: 0 0 20px rgba(139,92,246,.5);
+      transition: .3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo span {
+      color: #00e5ff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 10px 15px;
+      border-radius: 12px;
+      color: #cdd1e6;
+      font-size: 14px;
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-links a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(139,92,246,.2),
+        transparent
+      );
+      transform: translateX(-100%);
+      transition: .5s;
+    }
+
+    .nav-links a:hover::before {
+      transform: translateX(100%);
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(139,92,246,.14);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(139,92,246,.12);
+    }
+
+    /* Hero */
+
+    .hero {
+      max-width: 1200px;
+      min-height: 650px;
+      margin: auto;
+      padding: 100px 22px 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 850px;
+      animation: heroIn 1s .15s ease both;
+    }
+
+    @keyframes heroIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      background: rgba(139,92,246,.12);
+      border: 1px solid rgba(139,92,246,.3);
+      color: #cfc4ff;
+      font-size: 13px;
+      margin-bottom: 25px;
+      animation: badgePulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+      0%,100% {
+        box-shadow: 0 0 0 rgba(139,92,246,0);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(139,92,246,.18);
+      }
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #35ff9b;
+      box-shadow: 0 0 12px #35ff9b;
+    }
+
+    .hero h1 {
+      font-size: clamp(45px, 8vw, 88px);
+      line-height: 1;
+      font-weight: 1000;
+      margin-bottom: 25px;
+      background: linear-gradient(
+        90deg,
+        #fff,
+        #b99cff,
+        #00e5ff,
+        #fff
+      );
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 5s linear infinite;
+    }
+
+    @keyframes gradientMove {
+      to {
+        background-position: 250% center;
+      }
+    }
+
+    .hero p {
+      color: #aeb4cb;
+      font-size: 18px;
+      line-height: 2;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .hero-buttons {
+      margin-top: 35px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: .3s;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6, #6d42e8);
+      box-shadow: 0 10px 35px rgba(139,92,246,.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.05);
+      color: #dce2f5;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.22),
+        transparent
+      );
+      transform: skewX(-20deg);
+      transition: .6s;
+    }
+
+    .btn:hover::after {
+      left: 140%;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 15px 45px rgba(139,92,246,.4);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(0,229,255,.3);
+    }
+
+    /* Sections */
+
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 22px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title small {
+      color: #00e5ff;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .section-title h2 {
+      font-size: 35px;
+      margin-top: 10px;
+    }
+
+    .section-title p {
+      color: #8f96ad;
+      margin-top: 10px;
+    }
+
+    /* Cards */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      padding: 28px;
+      min-height: 220px;
+      border-radius: 24px;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.07),
+        rgba(255,255,255,.025)
+      );
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
+      transition: .4s;
+      animation: cardIn .8s ease both;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: .1s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: .2s;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;background: #8b5cf6;
+      filter: blur(80px);
+      opacity: .12;
+      top: -60px;
+      right: -60px;
+      transition: .4s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(139,92,246,.4);
+      box-shadow: 0 20px 55px rgba(0,0,0,.25);
+    }
+
+    .card:hover::before {
+      opacity: .25;
+    }
+
+    .card-icon {
+      font-size: 38px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #9299b1;
+      line-height: 1.9;
+    }
+
+    /* Stats */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 30px 15px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.07);
+      transition: .3s;
+    }
+
+    .stat:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0,229,255,.3);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 35px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .stat span {
+      color: #8d94aa;
+    }
+
+    /* Footer */
+
+    footer {
+      margin-top: 70px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 35px 20px;
+      text-align: center;
+      color: #777e94;
+      background: rgba(0,0,0,.15);
+    }
+
+    footer strong {
+      color: #00e5ff;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 850px) {
+      .header-inner {
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .hero {
+        min-height: 560px;
+        padding-top: 70px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav-links {
+        width: 100%;
+      }
+
+      .nav-links a {
+        flex: 1;
+        text-align: center;
+        padding: 9px 5px;
+        font-size: 12px;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .section {
+        padding: 55px 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <div class="orb one"></div>
+  <div class="orb two"></div>
 
-    <div class="navbar">
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
 
-        <a href="index.html" class="logo">
-            ODAE<span>ghost</span>
-        </a>
+      <a href="index.html" class="logo">
+        ODAE<span>ghost</span>
+      </a>
 
-        <nav>
-            <a href="index.html">خانه</a>
-            <a href="java.html" class="active">Java Mods</a>
-            <a href="bedrock.html">Bedrock Mods</a>
-            <a href="news.html">اخبار</a>
-        </nav>
+      <nav class="nav-links">
+        <a href="index.html">🏠 خانه</a>
+        <a href="java.html">☕ Java Mods</a>
+        <a href="bedrock.html">📱 Bedrock Mods</a>
+        <a href="news.html">📰 اخبار</a>
+      </nav>
 
     </div>
+  </header>
 
-</header>
 
-
-<main>
+  <!-- HERO -->
+  <main>
 
     <section class="hero">
-
-        <div class="hero-glow"></div>
+      <div class="hero-content">
 
         <div class="badge">
-            🧩 ODAEghost • JAVA MODS
+          <span class="badge-dot"></span>
+          ODAEghost در حال فعالیت است
         </div>
 
-        <h1>
-            Java <span>Mods</span>
-        </h1>
-
-        <h2>
-            مودهای Minecraft Java
-        </h2>
+        <h1>ODAEghost</h1>
 
         <p>
-            جدیدترین مودهای Minecraft Java را پیدا کن،
-            نسخه موردنظرت را انتخاب کن و مود مناسب خودت را دانلود کن.
+          دنیای مودها، بازی‌ها و اخبار گیمینگ
+          <br>
+          همه‌چیز برای گیمرها، در یکجا.
         </p>
 
+        <div class="hero-buttons">
+
+          <a href="java.html" class="btn btn-primary">
+            ☕ مشاهده Java Mods
+          </a>
+
+          <a href="bedrock.html" class="btn btn-secondary">
+            📱 مشاهده Bedrock Mods
+          </a>
+
+          <a href="news.html" class="btn btn-secondary">
+            📰 آخرین اخبار
+          </a>
+
+        </div>
+
+      </div>
     </section>
 
 
-    <section class="filter-box">
+    <!-- FEATURES -->
+    <section class="section">
 
-        <div class="filters">
+      <div class="section-title">
+        <small>ODAEGHOST</small>
+        <h2>اینجا چی پیدا می‌کنی؟</h2>
+        <p>بخش‌های اصلی سایت را سریع پیدا کن</p>
+      </div>
 
-            <div class="input-wrap">
+      <div class="cards">
 
-                <span class="input-icon">🔎</span>
+        <a href="java.html" class="card">
+          <div class="card-icon">☕</div>
+          <h3>Java Mods</h3><p>
+            مودهای Minecraft Java را پیدا کن و به صفحه مخصوص مودهای جاوا برو.
+          </p>
+        </a>
 
-                <input
-                    type="text"
-                    id="search"
-                    placeholder="جستجوی نام یا توضیحات مود..."
-                >
+        <a href="bedrock.html" class="card">
+          <div class="card-icon">📱</div>
+          <h3>Bedrock Mods</h3>
+          <p>
+            مودها و فایل‌های مخصوص Minecraft Bedrock در یک بخش جداگانه.
+          </p>
+        </a>
 
-            </div>
+        <a href="news.html" class="card">
+          <div class="card-icon">📰</div>
+          <h3>Gaming News</h3>
+          <p>
+            اخبار و مطالب جدید دنیای گیمینگ را از بخش اخبار دنبال کن.
+          </p>
+        </a>
 
-            <select id="version">
-                <option value="">🎮 همه نسخه‌ها</option>
-            </select>
-
-            <select id="loader">
-                <option value="">⚙️ همه Loader ها</option>
-                <option value="Fabric">Fabric</option>
-                <option value="Forge">Forge</option>
-            </select>
-
-        </div>
-
-    </section>
-
-
-    <section class="mods-section">
-
-        <div class="section-head">
-
-            <div>
-
-                <h2 class="section-title">
-                    Java <span>Mods</span>
-                </h2>
-
-                <p class="section-subtitle">
-                    مودهای Minecraft Java بر اساس نسخه و Loader
-                </p>
-
-            </div>
-
-        </div>
-
-        <div id="message">
-            در حال دریافت مودها...
-        </div>
-
-        <div
-            class="mods-grid"
-            id="mods"
-        >
-
-        </div>
+      </div>
 
     </section>
 
-</main>
 
+    <!-- STATS -->
+    <section class="section">
 
-<footer>
+      <div class="section-title">
+        <small>GAMING HUB</small>
+        <h2>ODAEghost</h2>
+        <p>یک مرکز گیمینگ برای گیمرها</p>
+      </div>
 
-    ©️ 2026 <strong>ODAEghost</strong> — Minecraft Java Mods
+      <div class="stats">
 
-</footer>
+        <div class="stat">
+          <strong>☕</strong>
+          <span>Java Mods</span>
+        </div>
 
+        <div class="stat">
+          <strong>📱</strong>
+          <span>Bedrock Mods</span>
+        </div>
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+        <div class="stat">
+          <strong>📰</strong>
+          <span>Gaming News</span>
+        </div>
 
+      </div>
 
-<script>
+    </section>
 
-    let allMods = [];
+  </main>
 
 
-    /* ================= LOAD MODS ================= */
+  <!-- FOOTER -->
+  <footer>
+    ساخته شده برای گیمرها با ❤️
+    <br><br>
+    © 2026 <strong>ODAEghost</strong>
+  </footer>
 
-    async function loadMods() {
-
-        const message =
-            document.getElementById("message");
-
-        try {
-
-            const { data, error } =
-                await supabaseClient
-                    .from("java_mods")
-                    .select("*")
-                    .order("created_at", {
-                        ascending: false
-                    });
-
-            if (error) {
-
-                console.error(error);
-
-                message.textContent =
-                    "خطا در دریافت مودها";
-
-                return;
-            }
-
-            allMods = data || [];
-
-            createVersions();
-
-            renderMods(allMods);
-
-        } catch (error) {
-
-            console.error(error);
-
-            message.textContent =
-                "خطایی در اتصال به سرور رخ داد.";
-
-        }
-
-    }
-
-
-    /* ================= VERSIONS ================= */
-
-    function createVersions() {
-
-        const versionSelect =
-            document.getElementById("version");
-
-        const versions = [
-            ...new Set(
-                allMods
-                    .map(mod => mod.minecraft_version)
-                    .filter(Boolean)
-            )
-        ];
-
-        versions.sort((a, b) =>
-            String(b).localeCompare(String(a),
-                undefined,
-                {
-                    numeric: true
-                }
-            )
-        );
-
-        versionSelect.innerHTML =
-            `<option value="">🎮 همه نسخه‌ها</option>`;
-
-        versions.forEach(version => {
-
-            const option =
-                document.createElement("option");
-
-            option.value = version;
-
-            option.textContent = version;
-
-            versionSelect.appendChild(option);
-
-        });
-
-    }
-
-
-    /* ================= RENDER ================= */
-
-    function renderMods(mods) {
-
-        const container =
-            document.getElementById("mods");
-
-        const message =
-            document.getElementById("message");
-
-        if (!mods || mods.length === 0) {
-
-            container.innerHTML = `
-                <div class="empty">
-
-                    <div class="empty-icon">
-                        🔍
-                    </div>
-
-                    <h3>
-                        مودی پیدا نشد
-                    </h3>
-
-                    <p style="margin-top:10px;">
-                        عبارت جستجو یا فیلترهای انتخابی را تغییر بده.
-                    </p>
-
-                </div>
-            `;
-
-            message.textContent = "";
-
-            return;
-        }
-
-        message.textContent =
-            `${mods.length} مود پیدا شد`;
-
-        container.innerHTML =
-            mods.map((mod, index) => {
-
-                const image =
-                    mod.image_url
-                        ? `
-                            <img
-                                class="mod-image"
-                                src="${escapeHtml(mod.image_url)}"
-                                alt="${escapeHtml(mod.name || "Minecraft Mod")}"
-                                loading="lazy"
-                            >
-                        `
-                        : `
-                            <div
-                                class="mod-image"
-                                style="
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:55px;
-                                "
-                            >
-                                🧩
-                            </div>
-                        `;
-
-
-                /*
-                 * برای Loader:
-                 * اگر دیتابیس ستون loader داشته باشد،
-                 * مقدار Fabric یا Forge نمایش داده می‌شود.
-                 * اگر نداشته باشد، بر اساس mod.loader
-                 * مقدار خالی نمایش داده خواهد شد.
-                 */
-
-                const loader =
-                    mod.loader
-                        ? String(mod.loader)
-                        : "";
-
-
-                return `
-
-                    <article
-                        class="mod-card"style="animation-delay:${Math.min(index * 70, 700)}ms"
-                    >
-
-                        <div class="mod-image-wrap">
-
-                            ${image}
-
-                            <div class="mod-image-overlay"></div>
-
-                            ${
-                                mod.minecraft_version
-                                ?
-                                `
-                                <div class="mod-version">
-                                    ${escapeHtml(mod.minecraft_version)}
-                                </div>
-                                `
-                                : ""
-                            }
-
-                            ${
-                                loader
-                                ?
-                                `
-                                <div class="mod-loader">
-                                    ${escapeHtml(loader)}
-                                </div>
-                                `
-                                : ""
-                            }
-
-                        </div>
-
-
-                        <div class="mod-content">
-
-                            <h3>
-                                ${escapeHtml(mod.name)}
-                            </h3>
-
-                            <p>
-                                ${escapeHtml(
-                                    mod.description ||
-                                    "توضیحی برای این مود ثبت نشده است."
-                                )}
-                            </p>
-
-
-                            <div class="mod-meta">
-
-                                ${
-                                    mod.download_url
-                                    ?
-                                    `
-                                    <a
-                                        class="download-btn"
-                                        href="${escapeHtml(mod.download_url)}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        ⬇️ دانلود مود
-                                    </a>
-                                    `
-                                    :
-                                    `
-                                    <span class="version-small">
-                                        لینک دانلود موجود نیست
-                                    </span>
-                                    `
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                `;
-
-            }).join("");
-
-    }
-
-
-    /* ================= FILTER ================= */
-
-    function filterMods() {
-
-        const search =
-            document
-                .getElementById("search")
-                .value
-                .trim()
-                .toLowerCase();
-
-        const version =
-            document
-                .getElementById("version")
-                .value;
-
-        const loader =
-            document
-                .getElementById("loader")
-                .value;
-
-
-        const filtered =
-            allMods.filter(mod => {
-
-                const name =
-                    String(mod.name || "")
-                        .toLowerCase();
-
-                const description =
-                    String(mod.description || "")
-                        .toLowerCase();
-
-                const modVersion =
-                    String(
-                        mod.minecraft_version || ""
-                    );
-
-                const modLoader =
-                    String(
-                        mod.loader || ""
-                    );
-
-
-                const searchMatch =
-                    !search ||
-                    name.includes(search) ||
-                    description.includes(search);
-
-
-                const versionMatch =
-                    !version ||
-                    modVersion === version;
-
-
-                const loaderMatch =!loader ||
-                    modLoader.toLowerCase() ===
-                    loader.toLowerCase();
-
-
-                return (
-                    searchMatch &&
-                    versionMatch &&
-                    loaderMatch
-                );
-
-            });
-
-
-        renderMods(filtered);
-
-    }
-
-
-    /* ================= SECURITY ================= */
-
-    function escapeHtml(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* ================= EVENTS ================= */
-
-    document
-        .getElementById("search")
-        .addEventListener(
-            "input",
-            filterMods
-        );
-
-
-    document
-        .getElementById("version")
-        .addEventListener(
-            "change",
-            filterMods
-        );
-
-
-    document
-        .getElementById("loader")
-        .addEventListener(
-            "change",
-            filterMods
-        );
-
-
-    /* ================= START ================= */
-
-    loadMods();
-
-</script>
 
 </body>
 </html>
