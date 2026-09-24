@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ModPulse | Minecraft Mods & News</title>
-    <meta name="description" content="ModPulse - مرجع مودها و اخبار Minecraft برای Java و Bedrock">
+    <title>ODAEghost | Java Mods</title>
+    <meta name="description" content="ODAEghost - Minecraft Java Mods">
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -21,9 +23,9 @@
         body {
             font-family: Tahoma, Arial, sans-serif;
             background:
-                radial-gradient(circle at 10% 10%, rgba(101,240,82,.13), transparent 28%),
-                radial-gradient(circle at 90% 10%, rgba(125,70,255,.16), transparent 30%),
-                radial-gradient(circle at 50% 65%, rgba(40,120,255,.08), transparent 35%),
+                radial-gradient(circle at 10% 10%, rgba(101,240,82,.12), transparent 28%),
+                radial-gradient(circle at 90% 10%, rgba(125,70,255,.14), transparent 30%),
+                radial-gradient(circle at 50% 60%, rgba(40,120,255,.07), transparent 35%),
                 #06080c;
             color: #fff;
             min-height: 100vh;
@@ -39,25 +41,22 @@
                 linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
             background-size: 55px 55px;
-            mask-image: linear-gradient(to bottom, black, transparent 75%);
+            mask-image: linear-gradient(to bottom, black, transparent 80%);
             z-index: -1;
         }
 
-        a {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* HEADER */
+        /* ================= HEADER ================= */
 
         header {
             position: sticky;
             top: 0;
             z-index: 1000;
             padding: 15px 6%;
-            background: rgba(6,8,12,.76);
+            background: rgba(6,8,12,.78);
             backdrop-filter: blur(22px);
             -webkit-backdrop-filter: blur(22px);
             border-bottom: 1px solid rgba(255,255,255,.07);
+            animation: headerIn .8s ease both;
         }
 
         .navbar {
@@ -75,12 +74,17 @@
             font-size: 27px;
             font-weight: 950;
             letter-spacing: 1px;
+            transition: .3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.04);
         }
 
         .logo span {
             color: #65f052;
             text-shadow:
-                0 0 12px rgba(101,240,82,.65),
+                0 0 12px rgba(101,240,82,.7),
                 0 0 30px rgba(101,240,82,.25);
         }
 
@@ -91,72 +95,89 @@
         }
 
         nav a {
+            position: relative;
             color: #aeb7c2;
             text-decoration: none;
             font-size: 13px;
             padding: 10px 14px;
             border-radius: 12px;
-            transition: .25s;
+            transition: .3s;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: 3px;
+            right: 50%;
+            width: 0;
+            height: 2px;
+            background: #65f052;
+            box-shadow: 0 0 10px #65f052;
+            transition: .3s;
         }
 
         nav a:hover,
         nav a.active {
             color: #65f052;
             background: rgba(101,240,82,.08);
-            box-shadow: inset 0 0 20px rgba(101,240,82,.025);
+            transform: translateY(-2px);
         }
 
-        /* HERO */
+        nav a:hover::after,
+        nav a.active::after {
+            width: 45%;
+            right: 27.5%;
+        }
+
+        /* ================= HERO ================= */
 
         .hero {
-            min-height: 78vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 90px 20px 70px;
             position: relative;
+            max-width: 1150px;
+            margin: auto;
+            padding: 95px 20px 55px;
+            text-align: center;
+            animation: heroIn 1s ease both;
         }
 
         .hero-glow {
             position: absolute;
-            width: 520px;
-            height: 520px;
+            width: 420px;
+            height: 420px;
             border-radius: 50%;
             background: rgba(101,240,82,.08);
-            filter: blur(120px);
+            filter: blur(110px);
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
+            animation: glowPulse 5s ease-in-out infinite;
         }
 
         .badge {
+            position: relative;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 9px 17px;
-            margin-bottom: 27px;
+            margin-bottom: 22px;
             border-radius: 999px;
             color: #65f052;
             background: rgba(101,240,82,.055);
             border: 1px solid rgba(101,240,82,.22);
-            box-shadow: 0 0 30px rgba(101,240,82,.06);font-size: 12px;
+            box-shadow: 0 0 30px rgba(101,240,82,.06);
+            font-size: 12px;
+            animation: badgeFloat 3s ease-in-out infinite;
         }
 
         .hero h1 {
-            font-size: clamp(58px, 11vw, 112px);
-            line-height: .95;
+            position: relative;
+            font-size: clamp(48px, 9vw, 90px);
+            line-height: 1;
             font-weight: 950;
-            letter-spacing: -5px;
-            margin-bottom: 25px;
-            text-shadow: 0 0 45px rgba(255,255,255,.06);
+            letter-spacing: -4px;
+            margin-bottom: 20px;
+            animation: titleReveal 1s .15s both;
         }
 
         .hero h1 span {
@@ -167,143 +188,104 @@
         }
 
         .hero h2 {
-            font-size: clamp(20px, 4vw, 31px);
+            position: relative;
             color: #e4e8ec;
-            margin-bottom: 18px;
+            font-size: clamp(20px, 4vw, 30px);
+            margin-bottom: 15px;
+            animation: fadeUp .9s .3s both;
         }
 
         .hero p {
-            max-width: 700px;
-            margin: auto auto 36px;
-            color: #89939f;
-            font-size: 15px;
-            line-height: 2.1;
-        }
-
-        /* BUTTONS */
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 13px;
-        }
-
-        .btn {
-            min-width: 165px;
-            padding: 14px 22px;
-            border-radius: 13px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            transition: .28s;
-            border: 1px solid transparent;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px);
-        }
-
-        .btn-primary {
-            color: #061006;
-            background: #65f052;
-            box-shadow: 0 0 28px rgba(101,240,82,.2);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 45px rgba(101,240,82,.38);
-        }
-
-        .btn-secondary {
-            color: #fff;
-            background: rgba(255,255,255,.035);
-            border-color: rgba(255,255,255,.1);
-        }
-
-        .btn-secondary:hover {
-            border-color: rgba(70,160,255,.4);
-            background: rgba(50,130,255,.08);
-        }
-
-        .btn-purple {
-            color: #fff;
-            background: rgba(125,70,255,.09);
-            border-color: rgba(125,70,255,.28);
-        }
-
-        .btn-purple:hover {
-            background: rgba(125,70,255,.18);
-            box-shadow: 0 0 35px rgba(125,70,255,.18);
-        }
-
-        /* STATS */
-
-        .stats {
-            max-width: 1000px;
-            margin: -5px auto 95px;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 16px;
-        }
-
-        .stat {
             position: relative;
-            overflow: hidden;
-            text-align: center;
-            padding: 27px 18px;
-            border-radius: 20px;
+            max-width: 650px;
+            margin: auto;
+            color: #89939f;
+            font-size: 14px;
+            line-height: 2;
+            animation: fadeUp .9s .45s both;
+        }
+
+        /* ================= FILTER ================= */
+
+        .filter-box {
+            max-width: 1100px;
+            margin: 10px auto 55px;
+            padding: 0 20px;
+            animation: filterIn .8s .4s both;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 13px;
+            padding: 18px;
+            border-radius: 22px;
             background:
-                linear-gradient(145deg,
-                rgba(255,255,255,.055),
-                rgba(255,255,255,.012));
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.012)
+                );
             border: 1px solid rgba(255,255,255,.075);
             box-shadow: 0 20px 55px rgba(0,0,0,.2);
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            opacity: .65;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 50px;
+            padding: 0 45px 0 15px;
+            color: #fff;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 14px;
+            outline: none;
+            font-family: inherit;
             transition: .3s;
         }
 
-        .stat::before {
-            content: "";
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(101,240,82,.08);
-            filter: blur(45px);
-            top: -50px;
-            right: -30px;
+        select {
+            padding-right: 15px;
         }
 
-        .stat:hover {
-            transform: translateY(-6px);
-            border-color: rgba(101,240,82,.2);
+        select option {
+            background: #10141b;
+            color: #fff;
         }
 
-        .stat-number {
-            display: block;
-            position: relative;
-            color: #65f052;
-            font-size: 28px;
-            font-weight: 950;
-            margin-bottom: 8px;
+        input::placeholder {
+            color: #69747f;
         }
 
-        .stat-label {
-            color: #7e8995;
-            font-size: 12px;
+        input:focus,
+        select:focus {
+            border-color: rgba(101,240,82,.45);
+            background: rgba(101,240,82,.035);
+            box-shadow:
+                0 0 0 3px rgba(101,240,82,.06),
+                0 0 25px rgba(101,240,82,.08);
+            transform: translateY(-2px);
         }
 
-        /* SECTIONS */
+        /* ================= MODS ================= */
 
-        .section,
-        .features {
+        .mods-section {
             max-width: 1150px;
             margin: auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .section {
-            padding-bottom: 100px;
+            padding: 0 20px 100px;
         }
 
         .section-head {
@@ -312,11 +294,12 @@
             justify-content: space-between;
             gap: 20px;
             margin-bottom: 25px;
+            animation: fadeUp .8s both;
         }
 
         .section-title {
             font-size: 27px;
-            font-weight:950;
+            font-weight: 950;
         }
 
         .section-title span {
@@ -327,138 +310,214 @@
             color: #727d88;
             font-size: 12px;
             margin-top: 8px;
-        }
-
-        .view-all {
-            color: #65f052;
-            text-decoration: none;
+        }#message {
+            color: #7e8995;
             font-size: 12px;
-            white-space: nowrap;
+            margin-bottom: 18px;
         }
 
-        /* NEWS */
-
-        .news-grid {
+        .mods-grid {
             display: grid;
-            grid-template-columns: repeat(3,1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 18px;
         }
 
-        .news-card {
+        /* ================= CARD ================= */
+
+        .mod-card {
+            position: relative;
             overflow: hidden;
-            min-height: 220px;
-            display: flex;
-            flex-direction: column;
-            padding: 22px;
-            border-radius: 20px;
+            border-radius: 21px;
             background:
-                linear-gradient(145deg,
-                rgba(255,255,255,.05),
-                rgba(255,255,255,.012));
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.012)
+                );
             border: 1px solid rgba(255,255,255,.075);
-            transition: .3s;
+            box-shadow: 0 20px 55px rgba(0,0,0,.2);
+            transition: .45s cubic-bezier(.2,.8,.2,1);
+            animation: cardReveal .7s both;
         }
 
-        .news-card:hover {
-            transform: translateY(-7px);
-            border-color: rgba(125,70,255,.35);
-            box-shadow: 0 25px 55px rgba(0,0,0,.28);
+        .mod-card::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(101,240,82,.07);
+            filter: blur(55px);
+            top: -90px;
+            right: -70px;
+            pointer-events: none;
+            transition: .5s;
         }
 
-        .news-image {
-            width: calc(100% + 44px);
-            height: 155px;
+        .mod-card:hover {
+            transform: translateY(-9px) scale(1.012);
+            border-color: rgba(101,240,82,.25);
+            box-shadow:
+                0 28px 65px rgba(0,0,0,.3),
+                0 0 30px rgba(101,240,82,.045);
+        }
+
+        .mod-card:hover::before {
+            transform: scale(1.5);
+        }
+
+        .mod-image-wrap {
+            position: relative;
+            overflow: hidden;
+            height: 190px;
+            background: #0c1016;
+        }
+
+        .mod-image {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            margin: -22px -22px 18px;
-            border-bottom: 1px solid rgba(255,255,255,.07);
+            display: block;
+            transition: .55s cubic-bezier(.2,.8,.2,1);
         }
 
-        .news-date {
+        .mod-card:hover .mod-image {
+            transform: scale(1.07);
+        }
+
+        .mod-image-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(6,8,12,.75),
+                    transparent 60%
+                );
+            pointer-events: none;
+        }
+
+        .mod-version {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            padding: 7px 10px;
+            border-radius: 9px;
             color: #65f052;
-            font-size: 11px;
-            margin-bottom: 10px;
+            background: rgba(6,8,12,.75);
+            border: 1px solid rgba(101,240,82,.22);
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: bold;
         }
 
-        .news-card h3 {
-            color: #f2f4f6;
-            font-size: 17px;
-            line-height: 1.7;
-            margin-bottom: 9px;
+        .mod-loader {
+            position: absolute;
+            top: 13px;
+            left: 13px;
+            padding: 7px 10px;
+            border-radius: 9px;
+            color: #fff;
+            background: rgba(125,70,255,.75);
+            border: 1px solid rgba(170,130,255,.3);
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: bold;
         }
 
-        .news-card p {
+        .mod-content {
+            padding: 20px;
+        }
+
+        .mod-content h3 {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .mod-content p {
             color: #7e8995;
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.9;
+            min-height: 68px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .news-empty {
-            grid-column: 1/-1;
-            text-align: center;
-            padding: 50px 20px;
-            color: #69747f;
-            border-radius: 20px;
-            background: rgba(255,255,255,.025);
-            border: 1px dashed rgba(255,255,255,.09);
+        .mod-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 17px;
         }
 
-        /* FEATURES */
-
-        .features {
-            padding-bottom: 105px;
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 18px;
-        }
-
-        .feature {
+        .download-btn {
+            flex: 1;
             position: relative;
             overflow: hidden;
-            padding: 30px 25px;
-            border-radius: 20px;
-            background:
-                linear-gradient(145deg,
-                rgba(255,255,255,.05),
-                rgba(255,255,255,.012));
-            border: 1px solid rgba(255,255,255,.075);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 43px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: #65f052;color: #061006;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
             transition: .3s;
         }
 
-        .feature:hover {
-            transform: translateY(-7px);
-            border-color: rgba(101,240,82,.25);
-            box-shadow: 0 22px 55px rgba(0,0,0,.25);
+        .download-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 70%;
+            height: 100%;
+            background: rgba(255,255,255,.35);
+            transform: skewX(-20deg);
+            transition: .6s;
         }
 
-        .feature-icon {
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            margin-bottom: 18px;
-            font-size: 24px;
-            background: rgba(101,240,82,.075);
-            border: 1px solid rgba(101,240,82,.13);
+        .download-btn:hover::before {
+            left: 130%;
         }
 
-        .feature h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 28px rgba(101,240,82,.28);
         }
 
-        .feature p {
-            color: #818c97;
-            line-height: 2;
-            font-size: 13px;
+        .version-small {
+            color: #69747f;
+            font-size: 10px;
+            white-space: nowrap;
         }
 
-        /* FOOTER */
+        /* ================= EMPTY ================= */
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 70px 20px;
+            border-radius: 22px;
+            color: #69747f;
+            background: rgba(255,255,255,.025);
+            border: 1px dashed rgba(255,255,255,.09);
+            animation: emptyIn .6s both;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            opacity: .7;
+        }
+
+        /* ================= FOOTER ================= */
 
         footer {
             border-top: 1px solid rgba(255,255,255,.07);
@@ -473,17 +532,117 @@
             color: #65f052;
         }
 
-        /* MOBILE */
+        /* ================= ANIMATIONS ================= */
 
-        @media (max-width: 800px) {
-
-            header {
-                padding: 14px 18px;
+        @keyframes headerIn {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroIn {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.95);
+                filter: blur(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes filterIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes cardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes emptyIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: .55;
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.08);
+            }
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 850px) {
 
             .navbar {
                 flex-direction: column;
-                gap: 11px;}
+                gap: 10px;
+            }
 
             nav {
                 width: 100%;
@@ -497,37 +656,39 @@
             }
 
             .hero {
-                min-height: auto;
-                padding: 75px 18px 60px;
+                padding-top: 70px;
             }
 
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .mods-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+
             .hero h1 {
+                font-size: 52px;
                 letter-spacing: -3px;
             }
 
+            .hero h2 {
+                font-size: 20px;
+            }
+
             .hero p {
-                font-size: 13px;
+                font-size: 12px;
             }
 
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 330px;
-            }
-
-            .stats {
+            .mods-grid {
                 grid-template-columns: 1fr;
-                max-width: 390px;
-                margin-bottom: 70px;
             }
 
-            .news-grid,
-            .features {
-                grid-template-columns: 1fr;
+            .mod-image-wrap {
+                height: 210px;
             }
 
             .section-head {
@@ -535,41 +696,42 @@
             }
         }
 
-        @media (max-width: 420px) {
+        @media (prefers-reduced-motion: reduce) {
 
-            .hero h1 {
-                font-size: 52px;
-            }
-
-            .hero h2 {
-                font-size: 19px;
-            }
-
-            .badge {
-                font-size: 10px;
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
             }
         }
+
     </style>
 </head>
 
 <body>
 
 <header>
+
     <div class="navbar">
 
         <a href="index.html" class="logo">
-            Mod<span>Pulse</span>
+            ODAE<span>ghost</span>
         </a>
 
         <nav>
-            <a href="index.html" class="active">خانه</a>
-            <a href="java.html">Java Mods</a>
+            <a href="index.html">خانه</a>
+            <a href="java.html" class="active">Java Mods</a>
             <a href="bedrock.html">Bedrock Mods</a>
             <a href="news.html">اخبار</a>
         </nav>
 
     </div>
+
 </header>
+
 
 <main>
 
@@ -577,133 +739,83 @@
 
         <div class="hero-glow"></div>
 
-        <div class="hero-content">
+        <div class="badge">
+            🧩 ODAEghost • JAVA MODS
+        </div>
 
-            <div class="badge">
-                ⚡ Minecraft Mods & News
+        <h1>
+            Java <span>Mods</span>
+        </h1>
+
+        <h2>
+            مودهای Minecraft Java
+        </h2>
+
+        <p>
+            جدیدترین مودهای Minecraft Java را پیدا کن،
+            نسخه موردنظرت را انتخاب کن و مود مناسب خودت را دانلود کن.
+        </p>
+
+    </section>
+
+
+    <section class="filter-box">
+
+        <div class="filters">
+
+            <div class="input-wrap">
+
+                <span class="input-icon">🔎</span>
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="جستجوی نام یا توضیحات مود..."
+                >
+
             </div>
 
-            <h1>
-                Mod<span>Pulse</span>
-            </h1>
+            <select id="version">
+                <option value="">🎮 همه نسخه‌ها</option>
+            </select>
 
-            <h2>
-                دنیای مودها و اخبار Minecraft
-            </h2>
-
-            <p>
-                به ModPulse خوش اومدی؛ جایی برای پیدا کردن
-                مودهای Minecraft Java و Bedrock و دنبال کردن
-                جدیدترین اخبار دنیای Minecraft.
-            </p>
-
-            <div class="buttons">
-
-                <a href="java.html" class="btn btn-primary">
-                    🟢 Java Mods
-                </a>
-
-                <a href="bedrock.html" class="btn btn-secondary">
-                    🟦 Bedrock Mods
-                </a>
-
-                <a href="news.html" class="btn btn-purple">
-                    📰 اخبار Minecraft
-                </a>
-
-            </div>
+            <select id="loader">
+                <option value="">⚙️ همه Loader ها</option>
+                <option value="Fabric">Fabric</option>
+                <option value="Forge">Forge</option>
+            </select>
 
         </div>
 
     </section>
 
-    <section class="stats">
 
-        <div class="stat">
-            <span class="stat-number" id="viewCount">—</span>
-            <span class="stat-label">بازدید سایت</span>
-        </div>
-
-        <div class="stat">
-            <span class="stat-number">Java</span>
-            <span class="stat-label">پشتیبانی از Minecraft Java</span>
-        </div>
-
-        <div class="stat">
-            <span class="stat-number">Bedrock</span>
-            <span class="stat-label">پشتیبانی از Minecraft Bedrock</span>
-        </div>
-
-    </section>
-
-    <section class="section">
+    <section class="mods-section">
 
         <div class="section-head">
 
             <div>
+
                 <h2 class="section-title">
-                    آخرین <span>اخبار</span>
+                    Java <span>Mods</span>
                 </h2>
 
                 <p class="section-subtitle">
-                    جدیدترین خبرهای منتشرشده در ModPulse
+                    مودهای Minecraft Java بر اساس نسخه و Loader
                 </p>
-            </div>
 
-            <a href="news.html" class="view-all">
-                مشاهده همه اخبار ←
-            </a>
-
-        </div>
-
-        <div class="news-grid" id="newsGrid">
-
-            <div class="news-empty">
-                در حال دریافت اخبار...
             </div>
 
         </div>
 
-    </section>
-
-    <section class="features">
-
-        <div class="feature">
-
-            <div class="feature-icon">🧩</div>
-
-            <h3>Java Mods</h3>
-
-            <p>
-                مودهای Minecraft Java در یک بخش جداگانه،
-                مرتب و قابل جستجو بر اساس نسخه.
-            </p>
-
+        <div id="message">
+            در حال دریافت مودها...
         </div>
 
-        <div class="feature">
-
-            <div class="feature-icon">📱</div>
-
-            <h3>Bedrock Mods</h3>
-
-            <p>
-                بخش اختصاصی برای مودها و Add-on های
-                Minecraft Bedrock.
-            </p>
-
-        </div>
-
-        <div class="feature">
-
-            <div class="feature-icon">⚡</div>
-
-            <h3>Minecraft News</h3>
-
-            <p>
-                اخبار، آپدیت‌ها و اتفاقات مهم دنیای
-                Minecraft در یک صفحه اختصاصی.
-            </p>
+        <div
+            class="mods-grid"
+            id="mods"
+        >
 
         </div>
 
@@ -711,112 +823,354 @@
 
 </main>
 
+
 <footer>
-    © 2026 <strong>ModPulse</strong> — Minecraft Mods & News
+
+    ©️ 2026 <strong>ODAEghost</strong> — Minecraft Java Mods
+
 </footer>
 
+
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
+
 <script>
 
-    async function loadViewCount() {
-
-        const viewElement = document.getElementById("viewCount");
-
-        try {
-
-            const { data, error } =
-                await supabaseClient.rpc("increment_site_views");
-
-            if (error) {
-                console.error("View counter error:", error);
-                viewElement.textContent = "—";
-                return;
-            }
-
-            viewElement.textContent =
-                Number(data || 0).toLocaleString("fa-IR");
-
-        } catch (error) {
-
-            console.error(error);
-            viewElement.textContent = "—";
-
-        }
-    }
+    let allMods = [];
 
 
-    async function loadLatestNews() {
+    /* ================= LOAD MODS ================= */
 
-        const newsGrid = document.getElementById("newsGrid");
+    async function loadMods() {
+
+        const message =
+            document.getElementById("message");
 
         try {
 
             const { data, error } =
                 await supabaseClient
-                    .from("news")
+                    .from("java_mods")
                     .select("*")
-                    .order("created_at", { ascending: false })
-                    .limit(3);
+                    .order("created_at", {
+                        ascending: false
+                    });
 
-            if (error) throw error;
+            if (error) {
 
-            if (!data || data.length === 0) {
+                console.error(error);
 
-                newsGrid.innerHTML = `
-                    <div class="news-empty">
-                        هنوز خبری منتشر نشده است.
-                    </div>
-                `;
+                message.textContent =
+                    "خطا در دریافت مودها";
 
                 return;
             }
 
-            newsGrid.innerHTML = data.map(news => {
+            allMods = data || [];
 
-                const date = news.created_at
-                    ? new Date(news.created_at).toLocaleDateString("fa-IR")
-                    : "";
+            createVersions();
 
-                const image = news.image_url
-                    ? `<img class="news-image" src="${escapeHtml(news.image_url)}" alt="">`
-                    : "";
+            renderMods(allMods);
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "خطایی در اتصال به سرور رخ داد.";
+
+        }
+
+    }
+
+
+    /* ================= VERSIONS ================= */
+
+    function createVersions() {
+
+        const versionSelect =
+            document.getElementById("version");
+
+        const versions = [
+            ...new Set(
+                allMods
+                    .map(mod => mod.minecraft_version)
+                    .filter(Boolean)
+            )
+        ];
+
+        versions.sort((a, b) =>
+            String(b).localeCompare(String(a),
+                undefined,
+                {
+                    numeric: true
+                }
+            )
+        );
+
+        versionSelect.innerHTML =
+            `<option value="">🎮 همه نسخه‌ها</option>`;
+
+        versions.forEach(version => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = version;
+
+            option.textContent = version;
+
+            versionSelect.appendChild(option);
+
+        });
+
+    }
+
+
+    /* ================= RENDER ================= */
+
+    function renderMods(mods) {
+
+        const container =
+            document.getElementById("mods");
+
+        const message =
+            document.getElementById("message");
+
+        if (!mods || mods.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🔍
+                    </div>
+
+                    <h3>
+                        مودی پیدا نشد
+                    </h3>
+
+                    <p style="margin-top:10px;">
+                        عبارت جستجو یا فیلترهای انتخابی را تغییر بده.
+                    </p>
+
+                </div>
+            `;
+
+            message.textContent = "";
+
+            return;
+        }
+
+        message.textContent =
+            `${mods.length} مود پیدا شد`;
+
+        container.innerHTML =
+            mods.map((mod, index) => {
+
+                const image =
+                    mod.image_url
+                        ? `
+                            <img
+                                class="mod-image"
+                                src="${escapeHtml(mod.image_url)}"
+                                alt="${escapeHtml(mod.name || "Minecraft Mod")}"
+                                loading="lazy"
+                            >
+                        `
+                        : `
+                            <div
+                                class="mod-image"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:55px;
+                                "
+                            >
+                                🧩
+                            </div>
+                        `;
+
+
+                /*
+                 * برای Loader:
+                 * اگر دیتابیس ستون loader داشته باشد،
+                 * مقدار Fabric یا Forge نمایش داده می‌شود.
+                 * اگر نداشته باشد، بر اساس mod.loader
+                 * مقدار خالی نمایش داده خواهد شد.
+                 */
+
+                const loader =
+                    mod.loader
+                        ? String(mod.loader)
+                        : "";
+
 
                 return `
-                    <article class="news-card">
 
-                        ${image}
+                    <article
+                        class="mod-card"style="animation-delay:${Math.min(index * 70, 700)}ms"
+                    >
 
-                        <div class="news-date">
-                            🕒 ${date}
+                        <div class="mod-image-wrap">
+
+                            ${image}
+
+                            <div class="mod-image-overlay"></div>
+
+                            ${
+                                mod.minecraft_version
+                                ?
+                                `
+                                <div class="mod-version">
+                                    ${escapeHtml(mod.minecraft_version)}
+                                </div>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                loader
+                                ?
+                                `
+                                <div class="mod-loader">
+                                    ${escapeHtml(loader)}
+                                </div>
+                                `
+                                : ""
+                            }
+
                         </div>
 
-                        <h3>
-                            ${escapeHtml(news.title)}
-                        </h3>
 
-                        <p>
-                            ${escapeHtml(news.content)}
-                        </p>
+                        <div class="mod-content">
+
+                            <h3>
+                                ${escapeHtml(mod.name)}
+                            </h3>
+
+                            <p>
+                                ${escapeHtml(
+                                    mod.description ||
+                                    "توضیحی برای این مود ثبت نشده است."
+                                )}
+                            </p>
+
+
+                            <div class="mod-meta">
+
+                                ${
+                                    mod.download_url
+                                    ?
+                                    `
+                                    <a
+                                        class="download-btn"
+                                        href="${escapeHtml(mod.download_url)}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        ⬇️ دانلود مود
+                                    </a>
+                                    `
+                                    :
+                                    `
+                                    <span class="version-small">
+                                        لینک دانلود موجود نیست
+                                    </span>
+                                    `
+                                }
+
+                            </div>
+
+                        </div>
 
                     </article>
+
                 `;
 
             }).join("");
 
-        } catch (error) {
-
-            console.error("News error:", error);
-
-            newsGrid.innerHTML = `
-                <div class="news-empty">
-                    فعلاً امکان دریافت اخبار وجود ندارد.
-                </div>
-            `;
-        }
     }
 
+
+    /* ================= FILTER ================= */
+
+    function filterMods() {
+
+        const search =
+            document
+                .getElementById("search")
+                .value
+                .trim()
+                .toLowerCase();
+
+        const version =
+            document
+                .getElementById("version")
+                .value;
+
+        const loader =
+            document
+                .getElementById("loader")
+                .value;
+
+
+        const filtered =
+            allMods.filter(mod => {
+
+                const name =
+                    String(mod.name || "")
+                        .toLowerCase();
+
+                const description =
+                    String(mod.description || "")
+                        .toLowerCase();
+
+                const modVersion =
+                    String(
+                        mod.minecraft_version || ""
+                    );
+
+                const modLoader =
+                    String(
+                        mod.loader || ""
+                    );
+
+
+                const searchMatch =
+                    !search ||
+                    name.includes(search) ||
+                    description.includes(search);
+
+
+                const versionMatch =
+                    !version ||
+                    modVersion === version;
+
+
+                const loaderMatch =!loader ||
+                    modLoader.toLowerCase() ===
+                    loader.toLowerCase();
+
+
+                return (
+                    searchMatch &&
+                    versionMatch &&
+                    loaderMatch
+                );
+
+            });
+
+
+        renderMods(filtered);
+
+    }
+
+
+    /* ================= SECURITY ================= */
 
     function escapeHtml(value) {
 
@@ -830,8 +1184,35 @@
     }
 
 
-    loadViewCount();
-    loadLatestNews();
+    /* ================= EVENTS ================= */
+
+    document
+        .getElementById("search")
+        .addEventListener(
+            "input",
+            filterMods
+        );
+
+
+    document
+        .getElementById("version")
+        .addEventListener(
+            "change",
+            filterMods
+        );
+
+
+    document
+        .getElementById("loader")
+        .addEventListener(
+            "change",
+            filterMods
+        );
+
+
+    /* ================= START ================= */
+
+    loadMods();
 
 </script>
 
