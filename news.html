@@ -2,1259 +2,1198 @@
 <html lang="fa" dir="rtl">
 
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>ODAEghost | News</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-
-      background:
-        radial-gradient(
-          circle at 10% 10%,
-          rgba(156, 255, 0, 0.10),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 90% 20%,
-          rgba(120, 70, 255, 0.14),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 50% 100%,
-          rgba(0, 210, 255, 0.07),
-          transparent 30%
-        ),
-        #070910;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-
-      background:
-        linear-gradient(
-          rgba(255,255,255,0.018) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,0.018) 1px,
-          transparent 1px
-        );
-
-      background-size: 45px 45px;
-      mask-image: linear-gradient(
-        to bottom,
-        black,
-        transparent 90%
-      );
-    }
-
-    /* =========================
-       NAV
-    ========================= */
-
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-
-      padding: 16px 6%;
-
-      background: rgba(7, 9, 16, 0.72);
-      backdrop-filter: blur(22px);
-
-      border-bottom:
-        1px solid rgba(255,255,255,0.07);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      flex-wrap: wrap;
-
-      animation: navDrop 0.8s ease both;
-    }
-
-    nav::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: 15%;
-      width: 70%;
-      height: 1px;
-
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(156,255,0,0.5),
-        rgba(120,70,255,0.6),
-        transparent
-      );
-
-      animation: navGlow 3s ease-in-out infinite;
-    }
-
-    nav a {
-      position: relative;
-
-      color: #aeb4c2;
-      text-decoration: none;
-
-      font-size: 14px;
-      font-weight: bold;
-
-      padding: 7px 2px;
-
-      transition:
-        color 0.3s ease,
-        transform 0.3s ease;
-    }
-
-    nav a::before {
-      content: "";
-      position: absolute;
-
-      bottom: 0;
-      right: 50%;
-
-      width: 0;
-      height: 2px;
-
-      border-radius: 10px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #a8ff00,
-          #8f5cff
-        );
-
-      transition:
-        width 0.3s ease,
-        right 0.3s ease;
-    }
-
-    nav a:hover {
-      color: #fff;
-      transform: translateY(-2px);
-
-      text-shadow:
-        0 0 15px rgba(168,255,0,0.55);
-    }
-
-    nav a:hover::before {
-      width: 100%;
-      right: 0;
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      position: relative;
-
-      width: 90%;
-      max-width: 1100px;
-
-      margin: 75px auto 45px;
-
-      text-align: center;
-
-      animation: heroReveal 1s ease both;
-    }
-
-    .hero::before {
-      content: "";
-
-      position: absolute;
-      top: 30%;
-      left: 50%;
-
-      width: 280px;
-      height: 280px;
-
-      transform: translate(-50%, -50%);
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(156,255,0,0.09),
-          transparent 65%
-        );
-
-      filter: blur(15px);
-
-      z-index: -1;
-
-      animation: pulseGlow 4s ease-in-out infinite;
-    }
-
-    .badge {
-      display: inline-block;
-
-      padding: 9px 18px;
-
-      border-radius: 999px;
-
-      color: #caff62;
-
-      background:
-        rgba(156,255,0,0.07);
-
-      border:
-        1px solid rgba(156,255,0,0.23);
-
-      font-size: 13px;
-
-      margin-bottom: 20px;
-
-      box-shadow:
-        0 0 25px rgba(156,255,0,0.05);
-
-      animation:
-        badgeFloat 3s ease-in-out infinite;
-    }.hero h1 {
-      margin: 0;
-
-      font-size:
-        clamp(46px, 8vw, 82px);
-
-      font-weight: 900;
-      letter-spacing: -2px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #a8ff00,
-          #e6ffb8,
-          #8f5cff,
-          #a8ff00
-        );
-
-      background-size: 250% auto;
-
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      animation:
-        gradientMove 5s linear infinite;
-    }
-
-    .hero p {
-      max-width: 680px;
-
-      margin: 20px auto 0;
-
-      color: #8e96a7;
-
-      line-height: 2;
-
-      font-size: 15px;
-
-      animation:
-        fadeUp 1s ease 0.3s both;
-    }
-
-    /* =========================
-       CONTAINER
-    ========================= */
-
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    /* =========================
-       SEARCH
-    ========================= */
-
-    .search-box {
-      position: relative;
-
-      margin: 45px 0 30px;
-
-      animation:
-        fadeUp 0.8s ease 0.4s both;
-    }
-
-    .search-box::before {
-      content: "⌕";
-
-      position: absolute;
-
-      right: 18px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      color: #a8ff00;
-
-      font-size: 22px;
-
-      pointer-events: none;
-
-      z-index: 2;
-
-      transition: 0.3s;
-    }
-
-    #search {
-      width: 100%;
-
-      padding: 17px 52px 17px 20px;
-
-      border-radius: 17px;
-
-      border:
-        1px solid rgba(255,255,255,0.08);
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(17,21,32,0.88),
-          rgba(12,15,25,0.78)
-        );
-
-      color: white;
-
-      outline: none;
-
-      font-size: 14px;
-
-      box-shadow:
-        0 12px 40px rgba(0,0,0,0.18);
-
-      transition:
-        border-color 0.3s,
-        box-shadow 0.3s,
-        transform 0.3s;
-    }
-
-    #search::placeholder {
-      color: #697184;
-    }
-
-    #search:focus {
-      border-color:
-        rgba(156,255,0,0.5);
-
-      box-shadow:
-        0 0 0 4px rgba(156,255,0,0.04),
-        0 15px 50px rgba(0,0,0,0.28);
-
-      transform: translateY(-2px);
-    }
-
-    #search:focus + * {
-      color: #a8ff00;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    .message {
-      text-align: center;
-
-      color: #737b8e;
-
-      margin: 25px 0;
-
-      min-height: 25px;
-
-      font-size: 14px;
-
-      animation:
-        messagePulse 1.8s ease-in-out infinite;
-    }
-
-    /* =========================
-       NEWS GRID
-    ========================= */
-
-    .news {
-      display: grid;
-
-      grid-template-columns:
-        repeat(auto-fill, minmax(310px, 1fr));
-
-      gap: 25px;
-
-      padding-bottom: 80px;
-    }
-
-    /* =========================
-       CARD
-    ========================= */
-
-    .card {
-      position: relative;
-
-      overflow: hidden;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,0.065),
-          rgba(255,255,255,0.012)
-        );
-
-      border:
-        1px solid rgba(255,255,255,0.08);
-
-      border-radius: 23px;
-
-      backdrop-filter: blur(18px);
-
-      box-shadow:
-        0 15px 50px rgba(0,0,0,0.25);
-
-      opacity: 0;
-      transform:
-        translateY(35px)
-        scale(0.97);
-
-      animation:
-        cardReveal 0.7s cubic-bezier(.2,.8,.2,1)
-        forwards;
-
-      transition:
-        transform 0.4s ease,
-        border-color 0.4s ease,
-        box-shadow 0.4s ease;
-    }
-
-    .card::before {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      left: -120%;
-
-      width: 80%;
-      height: 100%;
-
-      background:
-        linear-gradient(
-          100deg,
-          transparent,
-          rgba(255,255,255,0.07),
-          transparent
-        );
-
-      transform: skewX(-18deg);
-
-      transition: left 0.8s ease;
-
-      z-index: 2;
-
-      pointer-events: none;
-    }
-
-    .card::after {
-      content: "";
-
-      position: absolute;
-
-      inset: 0;
-
-      border-radius: inherit;
-
-      padding: 1px;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(156,255,0,0.0),
-          rgba(120,70,255,0.0)
-        );
-
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-
-      pointer-events: none;
-
-      transition: 0.4s;
-    }
-
-    .card:hover {
-      transform:
-        translateY(-10px)
-        scale(1.015);
-
-      border-color:
-        rgba(156,255,0,0.28);
-
-      box-shadow:
-        0 25px 70px rgba(0,0,0,0.45),
-        0 0 30px rgba(156,255,0,0.05);
-    }
-
-    .card:hover::before {
-      left: 140%;
-    }
-
-    .card:hover::after {
-      background:
-        linear-gradient(
-          135deg,
-          rgba(156,255,0,0.45),
-          rgba(120,70,255,0.4)
-        );
-    }
-
-    /* =========================
-       IMAGE
-    ========================= */
-
-    .news-image {
-      width: 100%;
-      height: 210px;
-
-      object-fit: cover;
-
-      display: block;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(156,255,0,0.08),
-          rgba(120,70,255,0.12)
-        );
-
-      transition:
-        transform 0.7s cubic-bezier(.2,.8,.2,1),
-        filter 0.5s ease;
-    }
-
-    .card:hover .news-image {
-      transform: scale(1.07);
-
-      filter:
-        brightness(1.08)
-        saturate(1.1);
-    }
-
-    .no-image {
-      height: 210px;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      color: #70788b;
-
-      font-size: 16px;
-
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(156,255,0,0.10),
-          transparent 50%
-        ),
-        linear-gradient(
-          135deg,
-          rgba(156,255,0,0.05),
-          rgba(120,70,255,0.08)
-        );
-
-      transition:
-        transform 0.5s ease,
-        color 0.3s;
-    }
-
-    .card:hover .no-image {
-      color: #a8ff00;
-      transform: scale(1.03);
-    }
-
-    /* =========================
-       CONTENT
-    ========================= */
-
-    .content {
-      padding: 23px;
-    }
-
-    .date {
-      display: inline-flex;
-
-      align-items: center;
-
-      color: #a8ff00;
-
-      font-size: 12px;
-
-      margin-bottom: 12px;
-
-      padding: 6px 10px;
-
-      border-radius: 8px;
-
-      background:
-        rgba(156,255,0,0.06);
-
-      border:
-        1px solid rgba(156,255,0,0.09);
-    }
-
-    .content h2 {
-      margin: 0 0 14px;
-
-      font-size: 21px;
-
-      line-height: 1.6;
-
-      color: #fff;
-
-      transition:
-        color 0.3s,
-        transform 0.3s;
-    }
-
-    .card:hover .content h2 {
-      color: #dfff9a;
-      transform: translateX(-3px);
-    }
-
-    .content p {
-      color: #9ba3b3;
-
-      font-size: 14px;
-
-      line-height: 2;
-
-      white-space: pre-line;
-
-      margin-bottom: 0;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      position: relative;
-
-      padding: 35px 20px;
-
-      text-align: center;
-
-      color: #555d6d;
-
-      border-top:
-        1px solid rgba(255,255,255,0.06);
-
-      font-size: 13px;
-
-      background:
-        rgba(5,7,12,0.45);
-
-      overflow: hidden;
-    }
-
-    footer::before {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      left: 50%;
-
-      width: 180px;
-      height: 1px;
-
-      transform: translateX(-50%);
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          #a8ff00,
-          #8f5cff,
-          transparent
-        );
-
-      box-shadow:
-        0 0 20px rgba(168,255,0,0.4);
-    }
-
-    /* =========================
-       ANIMATIONS
-    ========================= */
-
-    @keyframes navDrop {
-      from {
-        opacity: 0;
-        transform: translateY(-25px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes navGlow {
-      0%,100% {
-        opacity: 0.4;
-        transform: scaleX(0.8);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scaleX(1);
-      }
-    }
-
-    @keyframes heroReveal {
-      from {
-        opacity: 0;
-        transform: translateY(35px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }@keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes badgeFloat {
-      0%,100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-4px);
-      }
-    }
-
-    @keyframes pulseGlow {
-      0%,100% {
-        transform:
-          translate(-50%, -50%)
-          scale(0.9);
-
-        opacity: 0.5;
-      }
-
-      50% {
-        transform:
-          translate(-50%, -50%)
-          scale(1.1);
-
-        opacity: 1;
-      }
-    }
-
-    @keyframes gradientMove {
-      0% {
-        background-position: 0% center;
-      }
-
-      100% {
-        background-position: 250% center;
-      }
-    }
-
-    @keyframes cardReveal {
-      to {
-        opacity: 1;
-
-        transform:
-          translateY(0)
-          scale(1);
-      }
-    }
-
-    @keyframes messagePulse {
-      0%,100% {
-        opacity: 0.55;
-      }
-
-      50% {
-        opacity: 1;
-      }
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 700px) {
-
-      nav {
-        gap: 14px;
-        padding: 14px 10px;
-      }
-
-      nav a {
-        font-size: 12px;
-      }
-
-      .hero {
-        margin-top: 48px;
-      }
-
-      .hero h1 {
-        font-size: 48px;
-      }
-
-      .hero p {
-        font-size: 13px;
-      }
-
-      .news {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .card {
-        border-radius: 20px;
-      }
-
-      .news-image,
-      .no-image {
-        height: 190px;
-      }
-
-      .content {
-        padding: 20px;
-      }
-
-      .content h2 {
-        font-size: 19px;
-      }
-
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-
-    }
-
-  </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ODAEghost | اخبار</title>
+    <meta name="description" content="ODAEghost - اخبار گیمینگ">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(101,240,82,.12), transparent 28%),
+                radial-gradient(circle at 90% 10%, rgba(125,70,255,.14), transparent 30%),
+                radial-gradient(circle at 50% 70%, rgba(40,120,255,.07), transparent 35%),
+                #06080c;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+            background-size: 55px 55px;
+            mask-image: linear-gradient(to bottom, black, transparent 85%);
+            z-index: -1;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 6%;
+            background: rgba(6,8,12,.78);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(255,255,255,.07);
+            animation: headerIn .8s ease both;
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 27px;
+            font-weight: 950;
+            letter-spacing: 1px;
+            transition: .3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.04);
+        }
+
+        .logo span {
+            color: #65f052;
+            text-shadow:
+                0 0 12px rgba(101,240,82,.7),
+                0 0 30px rgba(101,240,82,.25);
+        }
+
+        nav {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        nav a {
+            position: relative;
+            color: #aeb7c2;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            transition: .3s;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: 3px;
+            right: 50%;
+            width: 0;
+            height: 2px;
+            background: #65f052;
+            box-shadow: 0 0 10px #65f052;
+            transition: .3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #65f052;
+            background: rgba(101,240,82,.08);
+            transform: translateY(-2px);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 45%;
+            right: 27.5%;
+        }
+
+        /* HERO */
+
+        .hero {
+            position: relative;
+            max-width: 1150px;
+            margin: auto;
+            padding: 100px 20px 60px;
+            text-align: center;
+            animation: heroIn 1s ease both;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            border-radius: 50%;
+            background: rgba(101,240,82,.08);
+            filter: blur(110px);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            animation: glowPulse 5s ease-in-out infinite;
+        }
+
+        .badge {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 17px;
+            margin-bottom: 22px;
+            border-radius: 999px;
+            color: #65f052;
+            background: rgba(101,240,82,.055);
+            border: 1px solid rgba(101,240,82,.22);
+            box-shadow: 0 0 30px rgba(101,240,82,.06);
+            font-size: 12px;
+            animation: badgeFloat 3s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            position: relative;
+            font-size: clamp(48px, 9vw, 90px);
+            line-height: 1;
+            font-weight: 950;
+            letter-spacing: -4px;
+            margin-bottom: 20px;
+            animation: titleReveal 1s .15s both;
+        }
+
+        .hero h1 span {
+            color: #65f052;
+            text-shadow:
+                0 0 15px rgba(101,240,82,.7),
+                0 0 50px rgba(101,240,82,.25);
+        }
+
+        .hero p {
+            position: relative;
+            max-width: 650px;
+            margin: auto;
+            color: #89939f;
+            font-size: 14px;
+            line-height: 2;
+            animation: fadeUp .9s .35s both;
+        }
+
+        /* SEARCH */
+
+        .search-box {
+            max-width: 900px;
+            margin: 0 auto 55px;
+            padding: 0 20px;
+            animation: filterIn .8s .3s both;
+        }
+
+        .search-inner {
+            position: relative;
+            padding: 18px;
+            border-radius: 22px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.012)
+                );
+            border: 1px solid rgba(255,255,255,.075);
+            box-shadow: 0 20px 55px rgba(0,0,0,.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 34px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: .7;
+            pointer-events: none;
+        }
+
+        #search {
+            width: 100%;
+            height: 52px;
+            padding: 0 48px 0 18px;
+            color: #fff;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 14px;
+            outline: none;
+            font-family: inherit;
+            transition: .3s;
+        }
+
+        #search::placeholder {
+            color: #69747f;
+        }
+
+        #search:focus {
+            border-color: rgba(101,240,82,.45);
+            background: rgba(101,240,82,.035);
+            box-shadow:
+                0 0 0 3px rgba(101,240,82,.06),
+                0 0 25px rgba(101,240,82,.08);
+            transform: translateY(-2px);
+        }
+
+        /* NEWS */
+
+        .news-section {
+            max-width: 1150px;
+            margin: auto;
+            padding: 0 20px 100px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+            animation: fadeUp .8s both;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 950;
+        }
+
+        .section-title span {
+            color: #65f052;
+        }
+
+        .section-subtitle {
+            color: #727d88;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        #message {
+            color: #7e8995;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        /* NEWS CARD */
+
+        .news-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 21px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.012)
+                );
+            border: 1px solid rgba(255,255,255,.075);
+            box-shadow: 0 20px 55px rgba(0,0,0,.2);
+            transition: .45s cubic-bezier(.2,.8,.2,1);
+            animation: cardReveal .7s both;
+        }
+
+        .news-card:hover {
+            transform: translateY(-9px) scale(1.012);
+            border-color: rgba(101,240,82,.25);
+            box-shadow:
+                0 28px 65px rgba(0,0,0,.3),
+                0 0 30px rgba(101,240,82,.045);
+        }
+
+        .news-image-wrap {
+            position: relative;
+            height: 205px;
+            overflow: hidden;
+            background: #0c1016;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: .55s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .news-card:hover .news-image {
+            transform: scale(1.07);
+        }
+
+        .news-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(6,8,12,.8),
+                    transparent 65%
+                );
+        }
+
+        .news-date {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            padding: 7px 10px;
+            border-radius: 9px;
+            color: #65f052;
+            background: rgba(6,8,12,.78);
+            border: 1px solid rgba(101,240,82,.22);
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-content h3 {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .news-content p {
+            color: #7e8995;
+            font-size: 12px;
+            line-height: 1.9;
+            min-height: 90px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 43px;
+            margin-top: 17px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: #65f052;
+            color: #061006;
+            font-size: 12px;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .read-more:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 28px rgba(101,240,82,.28);
+        }
+
+        /* EMPTY */
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 70px 20px;
+            border-radius: 22px;
+            color: #69747f;
+            background: rgba(255,255,255,.025);
+            border: 1px dashed rgba(255,255,255,.09);
+            animation: emptyIn .6s both;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid rgba(255,255,255,.07);
+            padding: 30px 20px;
+            text-align: center;
+            color: #69737e;
+            font-size: 12px;
+            background: rgba(0,0,0,.18);
+        }
+
+        footer strong {
+            color: #65f052;
+        }
+
+        /* ANIMATIONS */
+
+        @keyframes headerIn {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroIn {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.95);
+                filter: blur(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes filterIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes cardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes emptyIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: .55;
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.08);
+            }
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 850px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                font-size: 11px;
+                padding: 8px 9px;
+            }
+
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+
+            .hero {
+                padding-top: 70px;
+            }
+
+            .hero h1 {
+                font-size: 52px;
+                letter-spacing: -3px;
+            }
+
+            .hero p {
+                font-size: 12px;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-image-wrap {
+                height: 210px;
+            }
+
+            .section-head {
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- NAV -->
+<header>
 
-  <nav>
+    <div class="navbar">
 
-    <a href="index.html">خانه</a>
+        <a href="./index.html" class="logo">
+            ODAE<span>ghost</span>
+        </a>
 
-    <a href="java.html">Java Mods</a>
+        <nav>
 
-    <a href="bedrock.html">Bedrock Mods</a>
+            <a href="./index.html">
+                🏠 خانه
+            </a>
 
-    <a href="news.html">اخبار</a>
+            <a href="./java.html">
+                Java Mods
+            </a>
 
-    <a href="admin.html">Admin</a>
+            <a href="./bedrock.html">
+                Bedrock Mods
+            </a>
 
-  </nav>
+            <a href="./news.html" class="active">
+                📰 اخبار
+            </a>
 
+        </nav>
 
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <div class="badge">
-      ⚡ ODAEghost • NEWS
     </div>
 
-    <h1>
-      News
-    </h1>
-
-    <p>
-      آخرین اخبار، آپدیت‌ها و اتفاقات
-      مربوط به Minecraft و ODAEghost.
-    </p>
-
-  </section>
+</header>
 
 
-  <!-- CONTENT -->
+<main>
 
-  <main class="container">
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-glow"></div>
+
+        <div class="badge">
+            📰 ODAEghost • NEWS
+        </div>
+
+        <h1>
+            Game <span>News</span>
+        </h1>
+
+        <p>
+            جدیدترین اخبار و مطالب گیمینگ ODAEghost را اینجا دنبال کن.
+        </p>
+
+    </section>
+
 
     <!-- SEARCH -->
 
-    <div class="search-box">
+    <section class="search-box">
 
-      <input
-        type="text"
-        id="search"
-        placeholder="جستجوی خبر..."
-      >
+        <div class="search-inner">
 
-    </div>
+            <span class="search-icon">
+                🔎
+            </span>
 
+            <inputtype="text"
+                id="search"
+                placeholder="جستجوی عنوان یا متن خبر..."
+            >
 
-    <!-- STATUS -->
+        </div>
 
-    <div
-      id="message"
-      class="message"
-    >
-      در حال بارگذاری اخبار...
-    </div>
+    </section>
 
 
     <!-- NEWS -->
 
-    <div
-      id="news"
-      class="news"
-    ></div>
+    <section class="news-section">
 
-  </main>
+        <div class="section-head">
+
+            <div>
+
+                <h2 class="section-title">
+                    آخرین <span>اخبار</span>
+                </h2>
+
+                <p class="section-subtitle">
+                    جدیدترین مطالب منتشرشده در ODAEghost
+                </p>
+
+            </div>
+
+        </div>
+
+        <div id="message">
+            در حال دریافت اخبار...
+        </div>
+
+        <div
+            class="news-grid"
+            id="news"
+        ></div>
+
+    </section>
+
+</main>
 
 
-  <!-- FOOTER -->
+<footer>
 
-  <footer>
+    ©️ 2026
+    <strong>ODAEghost</strong>
+    — Gaming News
 
-    © 2026 ODAEghost — Minecraft News
-
-  </footer>
-
-
-  <!-- SUPABASE -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script src="supabase.js"></script>
+</footer>
 
 
-  <script>
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+
+<script>
 
     let allNews = [];
 
 
-    /* =========================
-       LOAD NEWS
-    ========================= */
+    /* ================= LOAD NEWS ================= */
 
     async function loadNews() {
 
-      const message =
-        document.getElementById("message");
+        const message =
+            document.getElementById("message");
 
-      try {
+        try {
 
-        const { data, error } =
-          await supabaseClient
+            const { data, error } =
+                await supabaseClient
+                    .from("news")
+                    .select("*")
+                    .order("created_at", {
+                        ascending: false
+                    });
 
-            .from("news")
+            if (error) {
 
-            .select("*")
+                console.error(error);
 
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
+                message.textContent =
+                    "خطا در دریافت اخبار.";
 
+                return;
+            }
 
-        if (error) {
+            allNews = data || [];
 
-          console.error(error);
+            renderNews(allNews);
 
-          message.textContent =
-            "خطا در دریافت اخبار.";
+        } catch (error) {
 
-          return;
+            console.error(error);
+
+            message.textContent =
+                "خطایی در اتصال به سرور رخ داد.";
 
         }
-
-
-        allNews = data || [];
-
-        renderNews(allNews);
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-          "خطایی در اتصال به سرور رخ داد.";
-
-      }
 
     }
 
 
-    /* =========================
-       RENDER NEWS
-    ========================= */
+    /* ================= RENDER NEWS ================= */
 
-    functionrenderNews(newsList) {
+    function renderNews(newsList) {
 
-      const container =
-        document.getElementById("news");
+        const container =
+            document.getElementById("news");
 
-      const message =
-        document.getElementById("message");
+        const message =
+            document.getElementById("message");
 
 
-      container.innerHTML = "";
+        if (!newsList || newsList.length === 0) {
 
+            container.innerHTML = `
+                <div class="empty">
 
-      if (!newsList.length) {
+                    <div class="empty-icon">
+                        📰
+                    </div>
+
+                    <h3>
+                        خبری پیدا نشد
+                    </h3>
+
+                    <p style="margin-top:10px;">
+                        هنوز خبری منتشر نشده یا نتیجه‌ای برای جستجوی شما وجود ندارد.
+                    </p>
+
+                </div>
+            `;
+
+            message.textContent = "";
+
+            return;
+        }
+
 
         message.textContent =
-          "هنوز هیچ خبری منتشر نشده است.";
-
-        return;
-
-      }
+            `${newsList.length} خبر پیدا شد`;
 
 
-      message.textContent = "";
+        container.innerHTML =
+            newsList.map((item, index) => {
+
+                const title =
+                    item.title || "بدون عنوان";
+
+                const content =
+                    item.content || "متنی برای این خبر ثبت نشده است.";
+
+                const image =
+                    item.image_url
+                        ? `
+                            <img
+                                class="news-image"
+                                src="${escapeHtml(item.image_url)}"
+                                alt="${escapeHtml(title)}"
+                                loading="lazy"
+                            >
+                        `
+                        : `
+                            <div
+                                class="news-image"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:55px;
+                                "
+                            >
+                                📰
+                            </div>
+                        `;
 
 
-      newsList.forEach((item, index) => {
+                let dateText = "";
 
-        const card =
-          document.createElement("article");
+                if (item.created_at) {
+
+                    const date =
+                        new Date(item.created_at);if (!isNaN(date.getTime())) {
+
+                        dateText =
+                            date.toLocaleDateString(
+                                "fa-IR"
+                            );
+
+                    }
+
+                }
 
 
-        card.className = "card";
+                return `
+
+                    <article
+                        class="news-card"
+                        style="animation-delay:${Math.min(index * 70, 700)}ms"
+                    >
+
+                        <div class="news-image-wrap">
+
+                            ${image}
+
+                            <div class="news-overlay"></div>
+
+                            ${
+                                dateText
+                                ?
+                                `
+                                <div class="news-date">
+                                    📅 ${escapeHtml(dateText)}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
 
 
-        /* ANIMATION DELAY */
+                        <div class="news-content">
 
-        card.style.animationDelay =
-          `${index * 0.08}s`;
+                            <h3>
+                                ${escapeHtml(title)}
+                            </h3>
+
+                            <p>
+                                ${escapeHtml(content)}
+                            </p>
+
+                            <a
+                                href="#"
+                                class="read-more"
+                                onclick="return showNews(event, ${index})"
+                            >
+                                📖 مشاهده خبر
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }).join("");
+
+    }
 
 
-        let imageHTML = "";
+    /* ================= SHOW FULL NEWS ================= */
 
+    function showNews(event, index) {
 
-        if (item.image_url) {
+        event.preventDefault();
 
-          imageHTML = `
+        const item = allNews[index];
 
-            <img
-
-              class="news-image"
-
-              src="${escapeHtml(
-                item.image_url
-              )}"
-
-              alt="${escapeHtml(
-                item.title
-              )}"
-
-              loading="lazy"
-
-            >
-
-          `;
-
+        if (!item) {
+            return false;
         }
 
-        else {
+        const title =
+            item.title || "بدون عنوان";
 
-          imageHTML = `
-
-            <div class="no-image">
-
-              📰 ODAEghost News
-
-            </div>
-
-          `;
-
-        }
-
+        const content =
+            item.content || "";
 
         const date =
-          item.created_at
-            ? new Date(
-                item.created_at
-              ).toLocaleDateString(
-                "fa-IR"
-              )
-            : "";
+            item.created_at
+                ? new Date(item.created_at).toLocaleDateString("fa-IR")
+                : "";
 
 
-        card.innerHTML = `
+        const overlay =
+            document.createElement("div");
 
-          ${imageHTML}
-
-          <div class="content">
-
-            <div class="date">
-
-              📅 ${escapeHtml(date)}
-
-            </div>
-
-            <h2>
-
-              ${escapeHtml(
-                item.title
-              )}
-
-            </h2>
-
-            <p>
-
-              ${escapeHtml(
-                item.content
-              )}
-
-            </p>
-
-          </div>
-
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:9999;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+            background:rgba(0,0,0,.78);
+            backdrop-filter:blur(12px);
+            animation:fadeUp .3s ease;
         `;
 
 
-        container.appendChild(card);
+        const imageHTML =
+            item.image_url
+                ? `
+                    <img
+                        src="${escapeHtml(item.image_url)}"
+                        style="
+                            width:100%;
+                            max-height:300px;
+                            object-fit:cover;
+                            border-radius:16px;
+                            margin-bottom:20px;
+                        "
+                    >
+                `
+                : "";
 
-      });
+
+        overlay.innerHTML = `
+
+            <div
+                style="
+                    width:min(700px,100%);
+                    max-height:90vh;
+                    overflow:auto;
+                    background:#0b1015;
+                    border:1px solid rgba(101,240,82,.25);
+                    border-radius:24px;
+                    padding:25px;
+                    box-shadow:0 30px 100px rgba(0,0,0,.5);
+                    position:relative;
+                "
+            >
+
+                <button
+                    id="closeNews"
+                    style="
+                        position:absolute;
+                        top:15px;
+                        left:15px;
+                        width:38px;
+                        height:38px;
+                        border:none;
+                        border-radius:50%;
+                        background:rgba(255,255,255,.08);
+                        color:#fff;
+                        cursor:pointer;
+                        font-size:18px;
+                    "
+                >
+                    ×
+                </button>
+
+                ${imageHTML}
+
+                <div
+                    style="
+                        color:#65f052;
+                        font-size:11px;
+                        margin-bottom:10px;
+                    "
+                >
+                    📰 ODAEghost News
+                </div>
+
+                <h2
+                    style="
+                        font-size:25px;
+                        line-height:1.7;
+                        margin-bottom:10px;
+                    "
+                >
+                    ${escapeHtml(title)}
+                </h2>
+
+                ${
+                    date
+                    ?
+                    `
+                    <div
+                        style="
+                            color:#69747f;
+                            font-size:11px;
+                            margin-bottom:20px;
+                        "
+                    >
+                        📅 ${escapeHtml(date)}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+                <div
+                    style="
+                        color:#b5bec7;
+                        font-size:14px;
+                        line-height:2.2;
+                        white-space:pre-wrap;
+                    "
+                >
+                    ${escapeHtml(content)}
+                </div>
+
+            </div>
+        `;
+
+
+        document.body.appendChild(overlay);
+
+
+        const closeButton =
+            overlay.querySelector("#closeNews");
+
+
+        function close() {
+            overlay.remove();
+        }
+
+
+        closeButton.addEventListener(
+            "click",
+            close
+        );
+
+
+        overlay.addEventListener(
+            "click",
+            function(e) {
+
+                if (e.target === overlay) {
+                    close();
+                }
+
+            }
+        );
+
+
+        return false;
 
     }
 
 
-    /* =========================
-       SEARCH
-    ========================= */
+    /* ================= SEARCH ================= */
 
     function filterNews() {
 
-      const search =
-        document
-          .getElementById("search")
-          .value
-          .toLowerCase()
-          .trim();
+        const search =
+            document
+                .getElementById("search")
+                .value
+                .trim()
+                .toLowerCase();
 
 
-      const filtered =
-        allNews.filter(item => {
+        const filtered =
+            allNews.filter(item => {
 
-          const title =
-            (
-              item.title || ""
-            ).toLowerCase();
+                const title =
+                    String(item.title || "")
+                        .toLowerCase();
 
-
-          const content =
-            (
-              item.content || ""
-            ).toLowerCase();
+                const content =
+                    String(item.content || "")
+                        .toLowerCase();
 
 
-          return (
-            title.includes(search) ||
-            content.includes(search)
-          );
+                return (
+                    !search ||
+                    title.includes(search) ||
+                    content.includes(search)
+                );
 
-        });
+            });
 
 
-      renderNews(filtered);
+        renderNews(filtered);
 
     }
 
 
-    /* =========================
-       ESCAPE HTML
-    ========================= */
+    /* ================= SECURITY ================= */
 
-    function escapeHtml(text) {
+    function escapeHtml(value) {
 
-      const div =
-        document.createElement("div");
-
-
-      div.textContent =
-        text ?? "";
-
-
-      return div.innerHTML;
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
     }
 
 
-    /* =========================
-       SEARCH EVENT
-    ========================= */
+    /* ================= SEARCH EVENT ================= */
 
     document
-      .getElementById("search")
-      .addEventListener(
-        "input",
-        filterNews
-      );
+        .getElementById("search")
+        .addEventListener(
+            "input",
+            filterNews
+        );
 
 
-    /* =========================
-       START
-    ========================= */
+    /* ================= START ================= */
 
     loadNews();
 
-  </script>
+</script>
 
 </body>
-
 </html>
